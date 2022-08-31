@@ -152,14 +152,21 @@ void handle_realloc(char ***str_ar, int i, int bsize, int *bsize_total);
 size_t handle_strlen(char *str, size_t len, int i, int n);
 char *strconcatl(int n, ...);
 char *isinPATH(char *cmd_name);
+char *isinPATH2(char *cmd_name, char **envp);
 char *getenv2(const char *name);
+char *getenv3(const char *name, char **envp);
 int rellocate_env(const char *name, const char *val, int edit_idx, int cflag);
 int handle_dpmall(char **buff);
+void handle_dpfree(char ***sarr);
+void handle_free(char *type, ...);
 int edit_env(char *env, const char *value, int edit_idx);
 int handle_name_val(const char *name, const char *val);
 int setenv2(const char *name, const char *value, int overwrite);
 int del_env(const char *name, int edit_idx);
 int unsetenv2(const char *name);
+void abs_srch(char ***sarr, char **envp);
+int rel_srch(char *cmd);
+char **in_parser(char *line, char *envp[]);
 
 
 
