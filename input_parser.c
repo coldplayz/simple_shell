@@ -20,14 +20,17 @@
  * processes it to be suitable to be passed to execve().
  * @line: string representing the line of input to process.
  * @envp: the environment of the process as taken from main's third argument.
+ * @bltin_nm: a NULL-terminated array of
+ * strings representing the names of in-built functions.
+ * @n: the address of an int determining whether or not to free str_ar[0].
  *
  * Return: a NULL-terminated array of strings
  * representing each word from the command-line input;
  * or NULL if the first word is not a found command.
  */
-char **in_parser(char *line, char *envp[])
+char **in_parser(char *line, char *envp[], char *bltin_nm[], int *n)
 {
-	char **str_ar, *builtins[] = {"exit", NULL};
+	char **str_ar;
 	int i;
 
 	str_ar = str_arr(line, " \n"); /* 'line' is modified after call to str_ar */
@@ -36,10 +39,11 @@ char **in_parser(char *line, char *envp[])
 		return (str_ar);
 	}
 
-	for (i = 0; builtins[i]; i++)
+	for (i = 0; bltin_nm[i]; i++)
 	{
-		if (_strcmp(builtins[i], str_ar[0]) == 0)
+		if (_strcmp(bltin_nm[i], str_ar[0]) == 0)
 		{
+			*n = 0;
 			return (str_ar);
 		}
 	}

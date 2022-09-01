@@ -15,6 +15,8 @@
  * handle_free - frees a list of single or double pointers to char, safely.
  * @type: a string specifying the number of
  * pointers and the type of free operation to be performed on them.
+ * @flag: an int determining whether to free the pointer
+ * to the command pathname in the array of command-line argument.
  *
  * Description: the string type may consist of any of a sequence
  * of the characters 's', 'd', and 'e' in the order of the
@@ -25,20 +27,20 @@
  * of the double pointer first; then free the
  * double pointer itself. The double pointer has to be NULL-terminated.
  */
-void handle_free(char *type, ...)
+void handle_free(char *type, int flag, ...)
 {
 	int i;
 	char *ptc, **pptc;
 	va_list ap;
 
-	va_start(ap, type);
+	va_start(ap, flag);
 	for (i = 0; i < (_strlen(type)); i++)
 	{
 		switch (type[i])
 		{
 			case 's':
 				ptc = va_arg(ap, char *);
-				if (ptc)
+				if (ptc && flag)
 				{
 					free(ptc);
 				}

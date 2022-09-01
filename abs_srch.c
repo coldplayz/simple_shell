@@ -31,7 +31,6 @@
 void abs_srch(char ***sarr, char **envp)
 {
 	char *ptc;
-	int i;
 
 	ptc = isinPATH2((*sarr)[0], envp);
 	if (!ptc)

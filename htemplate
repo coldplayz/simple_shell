@@ -10,3 +10,8 @@
 #include <errno.h>
 #include <signal.h>
 #include "main.h"
+
+#define ex (execve("/bin/ls", args, NULL) == (-1))
+#define ps(x) (printf("%s\n", (x)))
+#define pd(x) (printf("%d\n", (x)))
+#define plu(x) (printf("%lu", (x)))
