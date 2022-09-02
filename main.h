@@ -3,6 +3,8 @@
 #include <stddef.h>
 #include <stdio.h>
 
+#define BUFSIZE 512
+
 /**
  * struct list_s - singly linked list
  * @str: string - (malloc'ed string)
@@ -165,6 +167,8 @@ int *printfext2(va_list ap, char c);
 int *printS(char *s);
 int pah(unsigned int n);
 int *printptr(void *p);
+int num_len(int n);
+
 
 /* string operations */
 int str2posint(char *str);
@@ -175,6 +179,8 @@ void tr2(char **str, char delim);
 char **str_arr(char *str, const char *delim);
 char *strtok2(char *str, const char *delim);
 void handle_realloc(char ***str_ar, int i, int bsize, int *bsize_total);
+void handle_realloc2(char **buff,
+		unsigned int *old_bsize, unsigned int *bsize, char *line);
 size_t handle_strlen(char *str, size_t len, int i, int n);
 char *strconcatl(int n, ...);
 char *isinPATH(char *cmd_name);
@@ -197,6 +203,8 @@ int launch_builtins(char **sarr, int n, int *status);
 int launch_other(char **sarr, char **envp);
 int exit2(char **sarr, int *status);
 int launcher(char **str_ar, char **envp, char *bltin_nm[], int *status);
+ssize_t getline3(char **line, size_t *n, FILE * stream __attribute__((unused)));
+void val_line(char **input);
 
 
 

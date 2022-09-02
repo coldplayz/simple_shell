@@ -14,4 +14,23 @@
 #define ex (execve("/bin/ls", args, NULL) == (-1))
 #define ps(x) (printf("%s\n", (x)))
 #define pd(x) (printf("%d\n", (x)))
-#define plu(x) (printf("%lu\n", (x)))
+#define plu(x) (printf("%lu", (x)))
+
+
+/**
+ * val_line - ensures that my function, getline3(), delivers a line of input.
+ * @input: address of a buffer storing data fetched from stdin.
+ */
+void val_line(char **input)
+{
+	int i;
+
+	for (i = 0; (*input)[i]; i++)
+	{
+		if ((*input)[i] == '\n')
+		{
+			(*input)[++i] = 0;
+			break;
+		}
+	}
+}

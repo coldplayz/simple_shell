@@ -19,7 +19,7 @@
 /**
  * abs_srch - checks if cmd can be found in any
  * of the paths listed in the PATH environment variable.
- * @cmd: address of pointer to the string representing the command.
+ * @sarr: address of array of strings representing the command.
  * @envp: the process's environment.
  *
  * Description: the value of the first element of the array of

@@ -18,10 +18,13 @@
 
 /**
  * main - a simple shell
+ * @argc: the number of main arguments.
+ * @argv: array of argument strings.
+ * @envp: the shell's environment.
  *
  * Return: always 0
  */
-int main (int argc __attribute__((unused)), char *argv[], char *envp[])
+int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 {
 	size_t n = 0;
 	int status = 0, m, a = 1, b = 1;
@@ -30,8 +33,8 @@ int main (int argc __attribute__((unused)), char *argv[], char *envp[])
 	while (a)
 	{
 		line = NULL;
-		printf("#cisfun$ ");
-		m = getline(&line, &n, stdin);
+		_printf("#cisfun$ ");
+		m = getline3(&line, &n, stdin);
 		if (m == EOF)
 		{
 			free(line);
@@ -59,3 +62,7 @@ int main (int argc __attribute__((unused)), char *argv[], char *envp[])
 
 	return (status);
 }
+
+/* ===============NOTES=============== */
+/* L60: b indicates whether to free str_ar[0] or not. 1==free, 0 otherwise. */
+
