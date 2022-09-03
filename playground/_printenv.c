@@ -1,6 +1,6 @@
 #include "main.h"
 #include <stdio.h>
-#include <stdib.h>
+#include <stdlib.h>
 
 /**
  * _printenv: prints the environment.
@@ -15,7 +15,7 @@ int _printenv(char **envp)
 
 	i = 0;
 
-	while (envp[i] != 0 || NULL)
+	while (envp[i] != NULL)
 	{
 		printf("%s\n", envp[i]);
 		i++;
