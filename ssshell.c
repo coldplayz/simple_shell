@@ -27,18 +27,18 @@
 int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 {
 	size_t n = 0;
-	int status = 0, m, a = 1, b = 1;
-	char *line, **str_ar, *bltin_nm[] = {"exit", NULL};
+	int status = 0, a = 1, b = 1, _free = 0;
+	char *line, **str_ar, *bltin_nm[] = {"exit", "setenv", "unsetenv", NULL};
 
 	while (a)
 	{
+		b = 1;
 		line = NULL;
 		_printf("#cisfun$ ");
-		m = getline3(&line, &n, stdin);
-		if (m == EOF)
+		if (getline3(&line, &n, stdin) == 0)
 		{
-			free(line);
-			return (0);
+			status = 1;
+			break;
 		}
 
 		str_ar = in_parser(line, envp, bltin_nm, &b);
@@ -54,11 +54,13 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 			continue;
 		}
 
-		a = launcher(str_ar, envp, bltin_nm, &status);
+		a = launcher(str_ar, &envp, bltin_nm, &status, &_free);
 
-		handle_free("ssd", b, line, str_ar[0], str_ar);
+		handle_free("sd", b, line, str_ar);
 		b = 1;
 	}
+	if (_free)
+		handle_free("e", 0, envp);
 
 	return (status);
 }

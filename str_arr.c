@@ -29,7 +29,7 @@ char **str_arr(char *str, const char *delim)
 		exit(98);
 	}
 
-	token = strtok(str, delim);
+	token = strtok2(str, delim);
 	if (!token)
 	{
 		str_ar[0] = NULL;
@@ -40,7 +40,7 @@ char **str_arr(char *str, const char *delim)
 	{
 		str_ar[i] = token;
 		i++;
-		token = strtok(NULL, delim);
+		token = strtok2(NULL, delim);
 
 		handle_realloc(&(str_ar), i, bsize, &bsize_total);
 

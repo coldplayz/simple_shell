@@ -16,7 +16,9 @@
  * @type: a string specifying the number of
  * pointers and the type of free operation to be performed on them.
  * @flag: an int determining whether to free the pointer
- * to the command pathname in the array of command-line argument.
+ * to the command pathname in the array of
+ * command-line arguments i.e. the first element of the array.
+ * Non-zero indicates to free, 0 otherwise.
  *
  * Description: the string type may consist of any of a sequence
  * of the characters 's', 'd', and 'e' in the order of the
@@ -25,7 +27,9 @@
  * d: free a pointer to pointer to char (double pointer) directly.
  * e: free the elements (storing a dynamically allocated address)
  * of the double pointer first; then free the
- * double pointer itself. The double pointer has to be NULL-terminated.
+ * double pointer itself. Note that it is assumed that the double
+ * pointer itself needs freeing i.e. has been dynamically
+ * allocated memory. The double pointer has to be NULL-terminated.
  */
 void handle_free(char *type, int flag, ...)
 {
@@ -40,7 +44,7 @@ void handle_free(char *type, int flag, ...)
 		{
 			case 's':
 				ptc = va_arg(ap, char *);
-				if (ptc && flag)
+				if (ptc)
 				{
 					free(ptc);
 				}
@@ -49,6 +53,8 @@ void handle_free(char *type, int flag, ...)
 				pptc = va_arg(ap, char **);
 				if (pptc)
 				{
+					if (flag)
+						free(pptc[0]);
 					free(pptc);
 				}
 				break;

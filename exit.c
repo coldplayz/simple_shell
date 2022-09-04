@@ -19,11 +19,14 @@
 /**
  * exit2 - exits the shell with specified status.
  * @sarr: array of strings containing command-line input.
+ * @envp: address of environment.
  * @status: address of status int.
+ * @free: address of int indicating whether, or not, to free envp.
  *
  * Return: always 0.
  */
-int exit2(char **sarr, int *status)
+int exit2(char **sarr, char ***envp __attribute__((unused)),
+		int *status, int *free __attribute__((unused)))
 {
 	if (sarr[1])
 	{

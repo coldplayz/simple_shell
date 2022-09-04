@@ -20,8 +20,10 @@
 /**
  * val_line - ensures that my function, getline3(), delivers a line of input.
  * @input: address of a buffer storing data fetched from stdin.
+ *
+ * Return: 1 on finding a newline character; 0 otherwise.
  */
-void val_line(char **input)
+int val_line(char **input)
 {
 	int i;
 
@@ -30,7 +32,9 @@ void val_line(char **input)
 		if ((*input)[i] == '\n')
 		{
 			(*input)[++i] = 0;
-			break;
+			return (1);
 		}
 	}
+
+	return (0);
 }

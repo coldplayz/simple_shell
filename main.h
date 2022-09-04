@@ -2,6 +2,7 @@
 #define MAIN_H
 #include <stddef.h>
 #include <stdio.h>
+#include <signal.h>
 
 #define BUFSIZE 512
 
@@ -187,24 +188,31 @@ char *isinPATH(char *cmd_name);
 char *isinPATH2(char *cmd_name, char **envp);
 char *getenv2(const char *name);
 char *getenv3(const char *name, char **envp);
-int rellocate_env(const char *name, const char *val, int edit_idx, int cflag);
+int rellocate_env(const char *name, const char *val,
+		int edit_idx, int cflag, char ***envp, int *free);
 int handle_dpmall(char **buff);
 void handle_dpfree(char ***sarr);
 void handle_free(char *type, int flag, ...);
 int edit_env(char *env, const char *value, int edit_idx);
 int handle_name_val(const char *name, const char *val);
-int setenv2(const char *name, const char *value, int overwrite);
-int del_env(const char *name, int edit_idx);
-int unsetenv2(const char *name);
+int setenv2(char **sarr, char ***envp,
+		int *status __attribute__((unused)), int *free);
+int del_env(const char *name, int edit_idx, char ***envp, int *free);
+int unsetenv2(char **sarr, char ***envp,
+		int *status __attribute__((unused)), int *free);
 void abs_srch(char ***sarr, char **envp);
 int rel_srch(char *cmd);
 char **in_parser(char *line, char *envp[], char **bltin_nm, int *n);
-int launch_builtins(char **sarr, int n, int *status);
+int launch_builtins(char **sarr, char ***envp, int n, int *status, int *free);
 int launch_other(char **sarr, char **envp);
-int exit2(char **sarr, int *status);
-int launcher(char **str_ar, char **envp, char *bltin_nm[], int *status);
+int launcher(char **str_ar, char ***envp,
+		char *bltin_nm[], int *status, int *free);
 ssize_t getline3(char **line, size_t *n, FILE * stream __attribute__((unused)));
-void val_line(char **input);
+int val_line(char **input);
+int exit2(char **sarr, char ***envp __attribute__((unused)),
+		int *status, int *free __attribute__((unused)));
+typedef void (*sighandler_t)(int);
+void sigint_handler(int signum);
 
 
 

@@ -11,7 +11,7 @@ int num_len(int n)
 	int q, len = 1;
 
 	q = n / 10;
-	for (;q != 0;)
+	for (; q != 0;)
 	{
 		q = q / 10;
 		len += 1;

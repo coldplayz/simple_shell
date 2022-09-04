@@ -16,6 +16,9 @@
 #define pd(x) (printf("%d\n", (x)))
 #define plu(x) (printf("%lu", (x)))
 
+ssize_t EOF_handler(char **buff, unsigned int old_size, int a,
+		ssize_t m, size_t *n, char **line, unsigned int bsize);
+
 
 /**
  * getline3 - gets a line from stdin.
@@ -31,7 +34,7 @@
  * the address of the line string and buffer size respectively.
  * If argument 'line' is NULL, then n should be 0, otherwise supply
  * a [malloc'd] pointer as 'line' and the size as n.
- * Return: the number of characters read from stdin.
+ * Return: the number of characters read from stdin, or 0 on EOF.
  */
 ssize_t getline3(char **line, size_t *n, FILE * stream __attribute__((unused)))
 {
@@ -54,7 +57,7 @@ ssize_t getline3(char **line, size_t *n, FILE * stream __attribute__((unused)))
 		a = read(STDIN_FILENO, (buff + old_bsize), BUFSIZE);
 		if (a == -1)
 		{
-			free(*line);
+			free(buff);
 			perror("stdin-read");
 			exit(EXIT_FAILURE);
 		}
@@ -62,13 +65,43 @@ ssize_t getline3(char **line, size_t *n, FILE * stream __attribute__((unused)))
 
 		if (a >= BUFSIZE)
 			handle_realloc2(&buff, &old_bsize, &bsize, *line);
-		else
-			break;
+		else if ((a >= 0) && (a < BUFSIZE)) /* end of transmission/input */
+		{
+			return (EOF_handler(&buff, old_bsize, a, m, n, line, bsize));
+		}
 	}
-	buff[old_bsize + a] = 0;
-	val_line(&buff);
 
 	*n = bsize;
 	*line = buff;
+	return (m);
+}
+
+
+/**
+ * EOF_handler - a helper function for getline3().
+ * @buff: address of char pointer where terminal input is stored.
+ * @old_bsize: an unsigned int pointing to the next read position in buff.
+ * @a: an int representing the number of last input characters read.
+ * @m: the number of characters read thus far.
+ * @n: address of int to store the size of buff in.
+ * @line: address of char pointer to store reference to input string at.
+ * @bsize: total size of buff.
+ *
+ * Return: 0 always; to be returned by the shell's launcher.
+ */
+ssize_t EOF_handler(char **buff, unsigned int old_bsize,
+		int a, ssize_t m, size_t *n, char **line, unsigned int bsize)
+{
+	(*buff)[old_bsize + a] = 0;
+	if (!val_line(buff)) /* input end: check all xters written to buff so far*/
+	{
+		free(*buff);
+		_printf("\n");
+		return (0);
+	}
+
+	*n = bsize;
+	*line = *buff;
+
 	return (m);
 }

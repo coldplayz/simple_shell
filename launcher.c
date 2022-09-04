@@ -21,15 +21,17 @@
  * between shell builtins and other programs.
  * @str_ar: address of the array of strings
  * representing the parsed command line input.
- * @envp: the process' environment.
+ * @envp: address of the process' environment.
  * @bltin_nm: a NULL-terminated array of
  * strings representing the names of in-built functions.
  * @status: address of an int to be modified by the exit builtin.
+ * @free: address of int indicating whether to free envp (1), or not (1).
  *
  * Notes: the program pathname represented by sarr[0] must exist.
  * Return: always 1; except when the shell is required to exit, then 0.
  */
-int launcher(char **str_ar, char **envp, char **bltin_nm, int *status)
+int launcher(char **str_ar, char ***envp,
+		char **bltin_nm, int *status, int *free)
 {
 	int i, n;
 
@@ -37,11 +39,11 @@ int launcher(char **str_ar, char **envp, char **bltin_nm, int *status)
 	{
 		if (_strcmp(bltin_nm[i], str_ar[0]) == 0)
 		{
-			return (launch_builtins(str_ar, i, status));
+			return (launch_builtins(str_ar, envp, i, status, free));
 		}
 	}
 
-	n = launch_other(str_ar, envp);
+	n = launch_other(str_ar, *envp);
 
 	return (n);
 }
