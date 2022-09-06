@@ -7,7 +7,10 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include "main.h"
-
+#define ex (execve("/bin/ls", args, NULL) == (-1))
+#define ps(x) (printf("%s\n", (x)))
+#define pd(x) (printf("%d\n", (x)))
+#define plu(x) (printf("%lu\n", (x)))
 
 /**
  * setenv2 - sets a new environment variable, or updates an existing one.
@@ -57,6 +60,7 @@ int setenv2(char **sarr, char ***envp,
 				return (rellocate_env(sarr[1], sarr[2], i, 1, envp, free));
 		}
 	}
+	ps("Name not found");
 	/* if name is not found */
 	return (rellocate_env(sarr[1], sarr[2], -1, 2, envp, free));
 }

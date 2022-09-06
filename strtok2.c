@@ -30,7 +30,7 @@ char *strtok2(char *str, const char *delim)
 
 	if (delim == NULL)
 		return (ptc);
-	for (i = 0; *ptc; i++)
+	for (i = 0; 1; i++)
 	{
 		for (j = 0; delim[j]; j++)
 		{
@@ -50,8 +50,8 @@ char *strtok2(char *str, const char *delim)
 			n++;
 			if (n == 1)
 				char1 = ptc;
-			flag = 1;
 		}
+		flag = 1;
 		if ((*ptc == '\0') && n) /*A non-delim char was seen by string end, else...*/
 			return (char1);
 		else if ((*ptc == '\0') && !n) /*none was seen for this call by string end*/

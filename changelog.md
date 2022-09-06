@@ -21,3 +21,15 @@ Added:		- parser_launcher: handles parsing and execution of commands.
 		- mult_cmd_launcher (in parser_launcher.c): launches multiple
 		user commands in one shell loop.
 		- char_srch: searches for a character in a string.
+
+=======================Task 12============================
+Added:		- a _struct shell_ type defined in main.h. Has one field for an
+		int named _exstat_ to store the exit status of the last-run
+		program.
+
+Modified:	- parser_launcher: added functionality that enables the
+		handling of the logical operators && and ||.
+		- char_srch: added functionality to search for the presence of
+		the logical operators.
+		- launch_other: now collects and stores the executed program's
+		exit status in shell.exstat

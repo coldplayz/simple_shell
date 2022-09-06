@@ -21,6 +21,18 @@ typedef struct list_s
 	struct list_s *next;
 } list_t;
 
+
+/**
+ * struct shell - a data structure for variables whose values
+ * need to be accessed and/or modified at different stack levels.
+ * @exstat: exit status of last launched program/command.
+ */
+typedef struct shell
+{
+	int exstat;
+} shell_t;
+shell_t shell;
+
 char *_memcpy(char *dest, char *src, unsigned int n);
 char *_memset(char *s, char b, unsigned int n);
 char *_strcat(char *dest, char *src);
@@ -213,6 +225,12 @@ int exit2(char **sarr, char ***envp __attribute__((unused)),
 		int *status, int *free __attribute__((unused)));
 typedef void (*sighandler_t)(int);
 void sigint_handler(int signum);
+int cd2(char **sarr, char ***envp, int *status, int *free);
+int char_srch(char *str, char xter);
+int parser_launcher(char *line, char ***envp,
+		char **bltin_nm, int *b, int *status, int *_free, char *shell_nm);
+int _printenv(char **sarr, char ***envp, int *status, int *free);
+
 
 
 

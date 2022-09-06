@@ -1,7 +1,10 @@
+_printenv
 _printf
 abs_srch
 _atoi2
 c2s
+char_srch
+cd2
 del_env
 edit_env
 exit2
@@ -23,6 +26,10 @@ launch_other
 launcher
 _memncpy
 num_len
+parser_launcher
+mult_cmd_launcherSEM
+mult_cmd_launcherAND
+mult_cmd_launcherOR
 pah
 printS
 printX

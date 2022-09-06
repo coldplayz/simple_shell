@@ -28,7 +28,8 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 {
 	size_t n = 0;
 	int status = 0, a = 1, b = 1, _free = 0;
-	char *line, **str_ar, *bltin_nm[] = {"exit", "setenv", "unsetenv", NULL};
+	char *line, *bltin_nm[]
+		= {"exit", "setenv", "unsetenv", "cd", "env", NULL};
 
 	while (a)
 	{
@@ -41,23 +42,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 			break;
 		}
 
-		str_ar = in_parser(line, envp, bltin_nm, &b);
-		if (!str_ar)
-		{
-			free(line);
-			printf("%s: No such file or directory\n", argv[0]);
-			continue;
-		}
-		if (str_ar[0] == NULL)
-		{
-			handle_free("sd", b, line, str_ar);
-			continue;
-		}
-
-		a = launcher(str_ar, &envp, bltin_nm, &status, &_free);
-
-		handle_free("sd", b, line, str_ar);
-		b = 1;
+		a = parser_launcher(line, &envp, bltin_nm, &b, &status, &_free, argv[0]);
 	}
 	if (_free)
 		handle_free("e", 0, envp);

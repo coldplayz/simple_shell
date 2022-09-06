@@ -37,7 +37,7 @@
 int launch_builtins(char **sarr, char ***envp, int n, int *status, int *free)
 {
 	int (*bltin_func[])(char **, char ***, int *, int *)
-		= {exit2, setenv2, unsetenv2, NULL};
+		= {exit2, setenv2, unsetenv2, cd2, _printenv, NULL};
 
 	return (bltin_func[n](sarr, envp, status, free));
 }

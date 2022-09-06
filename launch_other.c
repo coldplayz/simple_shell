@@ -48,6 +48,10 @@ int launch_other(char **sarr, char **envp)
 		else
 		{
 			wait(&status);
+			if (WIFEXITED(status))
+			{
+				shell.exstat = WEXITSTATUS(status);
+			}
 			return (1);
 		}
 	}
