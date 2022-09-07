@@ -22,6 +22,7 @@ char *strdup2(char *str)
 	ptc = malloc((j + 1) * sizeof(char));
 	if (ptc == NULL)
 	{
+		perror("strdup2-malloc");
 		return (NULL);
 	}
 

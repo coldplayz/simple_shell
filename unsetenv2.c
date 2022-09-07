@@ -25,7 +25,7 @@ int unsetenv2(char **sarr, char ***envp,
 
 	if (!sarr[1])
 	{
-		_printf("unsetenv: name NULL\n");
+		fprintf2(STDERR_FILENO, "unsetenv: name NULL\n");
 		return (1);
 	}
 

@@ -19,7 +19,7 @@ int handle_dpmall(char **buff)
 {
 	if (!buff)
 	{
-		perror("rellocate_env:malloc");
+		perror("malloc");
 		return (-1);
 	}
 

@@ -26,12 +26,28 @@ typedef struct list_s
  * struct shell - a data structure for variables whose values
  * need to be accessed and/or modified at different stack levels.
  * @exstat: exit status of last launched program/command.
+ * @alias: array of strings representing the alias list.
  */
 typedef struct shell
 {
 	int exstat;
+	char **alias;
 } shell_t;
 shell_t shell;
+
+
+/**
+ * struct pf - data structure for printf
+ * @pti: array of two integers storing
+ * @fd: file descriptor of the file to write to.
+ * return values from printfext2() function calls.
+ */
+typedef struct pf
+{
+	int pti[2];
+	int fd;
+} pf_t;
+pf_t printf3;
 
 char *_memcpy(char *dest, char *src, unsigned int n);
 char *_memset(char *s, char b, unsigned int n);
@@ -165,6 +181,7 @@ char *c2s(char c, int i, int flag);
 int print_posint(int n);
 int print_negint(int n);
 int _printf(const char *format, ...);
+int fprintf2(int fd, const char *format, ...);
 int printbin(unsigned int n);
 int printc(char arg);
 int *prints(char *s);
@@ -190,7 +207,7 @@ void tr2(char **str, char delim);
 
 /* simple shell */
 char **str_arr(char *str, const char *delim);
-char *strtok2(char *str, const char *delim);
+char *strtok2(char *str, const char *delim, int quote);
 void handle_realloc(char ***str_ar, int i, int bsize, int *bsize_total);
 void handle_realloc2(char **buff,
 		unsigned int *old_bsize, unsigned int *bsize, char *line);
@@ -230,6 +247,12 @@ int char_srch(char *str, char xter);
 int parser_launcher(char *line, char ***envp,
 		char **bltin_nm, int *b, int *status, int *_free, char *shell_nm);
 int _printenv(char **sarr, char ***envp, int *status, int *free);
+int alias2(char **sarr, char ***envp __attribute__((unused)),
+		int *status __attribute__((unused)), int *free __attribute__((unused)));
+int upd_alias_val(char **sarr, char ***alias);
+int upd_alias_noval(char **sarr, char ***alias);
+int print_alias(char **sarr, char ***alias);
+void find_quote(char **ptc, int *n);
 
 
 

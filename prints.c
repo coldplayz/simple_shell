@@ -16,32 +16,32 @@
  */
 int *prints(char *s)
 {
-	int  bytes_written, *pti, ai[2] = {0, 0};
+	int  bytes_written;
 
-	pti = ai;
 	if (s == NULL)
 	{
-		pti[0] = 6;
-		pti[1] = 0;
+		printf3.pti[0] = 6;
+		printf3.pti[1] = 0;
 		write(1, "(null)", 6);
-		return (pti);
+		return (printf3.pti);
 	}
 	bytes_written = 0;
-	bytes_written = write(1, s, _strlen(s));
+	bytes_written = write(printf3.fd, s, _strlen(s));
 	if (bytes_written == -1)
 	{
-		return (pti);
+		perror("write-prints");
+		return (printf3.pti);
 	}
 
 	if (bytes_written == 0)
 	{
-		pti[0] = 0;
-		pti[1] = 1;
+		printf3.pti[0] = 0;
+		printf3.pti[1] = 1;
 	}
 	else
 	{
-		pti[0] = bytes_written;
-		pti[1] = 0;
+		printf3.pti[0] = bytes_written;
+		printf3.pti[1] = 0;
 	}
-	return (pti);
+	return (printf3.pti);
 }

@@ -29,13 +29,16 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 	size_t n = 0;
 	int status = 0, a = 1, b = 1, _free = 0;
 	char *line, *bltin_nm[]
-		= {"exit", "setenv", "unsetenv", "cd", "env", NULL};
+		= {"exit", "setenv", "unsetenv", "cd", "env", "alias", NULL};
 
+	shell.alias = malloc(sizeof(char *));
+	handle_dpmall(shell.alias);
+	shell.alias[0] = NULL;
 	while (a)
 	{
 		b = 1;
 		line = NULL;
-		_printf("#cisfun$ ");
+		fprintf2(STDOUT_FILENO, "#cisfun$ ");
 		if (getline3(&line, &n, stdin) == 0)
 		{
 			status = 1;
@@ -46,6 +49,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 	}
 	if (_free)
 		handle_free("e", 0, envp);
+	handle_free("e", 0, shell.alias);
 
 	return (status);
 }

@@ -96,7 +96,7 @@ ssize_t EOF_handler(char **buff, unsigned int old_bsize,
 	if (!val_line(buff)) /* input end: check all xters written to buff so far*/
 	{
 		free(*buff);
-		_printf("\n");
+		fprintf2(STDERR_FILENO, "\n");
 		return (0);
 	}
 

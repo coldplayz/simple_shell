@@ -1,6 +1,8 @@
 _printenv
-_printf
+fprintf2
 abs_srch
+alias2
+char_srch2
 _atoi2
 c2s
 char_srch
@@ -33,6 +35,7 @@ mult_cmd_launcherOR
 pah
 printS
 printX
+print_alias
 print_negint
 print_posint
 printbin
@@ -62,5 +65,12 @@ strconcatl
 strdup2
 _strlen
 strtok2
+find_quote
 unsetenv2
+upd_alias_noval
+rellocate_alias
+edit_alias
+upd_alias_val
+rellocate_alias_val
+edit_alias_val
 val_line

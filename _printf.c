@@ -5,19 +5,21 @@
 #include "main.h"
 
 /**
- * _printf - produces output according to a format
- *  @format: a string containing normal
- *  sequence(s) of characters to print as-is, and
- *  special character sequence(s) to determine how to print the next arguments.
+ * fprintf2 - produces output according to a format
+ * @fd: file descriptor of the file to write to.
+ * @format: a string containing normal
+ * sequence(s) of characters to print as-is, and
+ * special character sequence(s) to determine how to print the next arguments.
  *
- *  Return: the number of characters printed,
- *  excluding the string-terminating null character
+ * Return: the number of characters printed,
+ * excluding the string-terminating null character
  */
-int _printf(const char *format, ...)
+int fprintf2(int fd, const char *format, ...)
 {
 	int i, j, bytes_count = 0, bytes_written = 0, ret = 0, *pti;
 	va_list ap;
 
+	printf3.fd = fd;
 	if (format == NULL || (format[0] == '%' && format[1] == 0))
 		return (-1);
 	va_start(ap, format);	/*initialize argument pointer*/
@@ -25,11 +27,9 @@ int _printf(const char *format, ...)
 	{
 		if (format[i] == '%')	/*when a % character is encountered*/
 		{
-			/*bytes_written stores the number of bytes*/
-			/*written by the call to each function*/
 			if (format[++i] == '%')
 			{
-				bytes_written += write(1, (format + i), 1);
+				bytes_written += write(fd, (format + i), 1);
 			}
 			else
 			{
@@ -43,7 +43,7 @@ int _printf(const char *format, ...)
 		}
 		else
 		{
-			bytes_written += write(1, (format + i), 1);
+			bytes_written += write(fd, (format + i), 1);
 		}
 		va_end(ap);
 		va_start(ap, format);

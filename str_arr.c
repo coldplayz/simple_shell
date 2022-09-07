@@ -25,11 +25,11 @@ char **str_arr(char *str, const char *delim)
 	str_ar = malloc(bsize);
 	if (!str_ar)
 	{
-		printf("Malloc error\n");
-		exit(98);
+		perror("str-arr-malloc");
+		return (NULL);
 	}
 
-	token = strtok2(str, delim);
+	token = strtok2(str, delim, 1);
 	if (!token)
 	{
 		str_ar[0] = NULL;
@@ -40,7 +40,7 @@ char **str_arr(char *str, const char *delim)
 	{
 		str_ar[i] = token;
 		i++;
-		token = strtok2(NULL, delim);
+		token = strtok2(NULL, delim, 1);
 
 		handle_realloc(&(str_ar), i, bsize, &bsize_total);
 

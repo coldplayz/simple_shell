@@ -28,7 +28,7 @@ void handle_realloc(char ***str_ar, int i, int bsize, int *bsize_total)
 		tmp = realloc(*str_ar, *bsize_total);
 		if (!tmp)
 		{
-			printf("Realloc error\n");
+			fprintf2(STDERR_FILENO, "Realloc error\n");
 			exit(99);
 		}
 

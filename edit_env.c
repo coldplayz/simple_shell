@@ -29,7 +29,7 @@ int edit_env(char *env, const char *value, int edit_idx)
 			{
 				if (value[j] == '=')
 				{
-					printf("The character = is in value\n");
+					fprintf2(STDERR_FILENO, "The character = is in value\n");
 					return (1);
 				}
 				env[i++] = value[j];

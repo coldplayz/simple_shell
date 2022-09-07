@@ -22,21 +22,21 @@ int handle_name_val(const char *name, const char *val)
 
 	if (!name)
 	{
-		fprintf(stderr, "Invalid name\n");
+		fprintf2(STDERR_FILENO, "Invalid name\n");
 		return (1);
 	}
 	for (i = 0; name[i]; i++)
 	{
 		if ((name[i] == '=') || (name[0] == 0))
 		{
-			fprintf(stderr, "Invalid name\n");
+			fprintf2(STDERR_FILENO, "Invalid name\n");
 			return (1);
 		}
 	}
 
 	if (!val)
 	{
-		fprintf(stderr, "Invalid value\n");
+		fprintf2(STDERR_FILENO, "Invalid value\n");
 		return (1);
 	}
 
