@@ -1,22 +1,24 @@
-#include <unistd.h>
+#include <stdarg.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
 #include "main.h"
 
 /**
- * print_posint - prints the positive integer n
- * @n: the positive integer to print
+ * printu - prints any unsigned integer
+ * @n: the unsigned int to print
  *
- * Return: the number of bytes written to STDOUT
+ * Return: the number of bytes printed
  */
-int print_posint(int n)
+int printu(unsigned int n)
 {
-	int i, q, j, len = num_len(n), bytes_written = 0;
+	int i, j, bytes_written = 0, len = num_len(n);
+	unsigned int q;
 	char *ptc;
 
 	ptc = malloc(sizeof(char) * len + 1);
 	if (ptc == NULL)
 	{
-		perror("print-posint-malloc");
 		return (0);
 	}
 	j = 0;
@@ -31,7 +33,7 @@ int print_posint(int n)
 
 	for (i = (len - 1); i >= 0; i--)
 	{
-		write(shstruct(NULL)->fd, &ptc[i], 1);
+		write(1, &ptc[i], 1);
 		bytes_written++;
 	}
 

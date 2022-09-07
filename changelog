@@ -1,0 +1,42 @@
+======Tasks 7 - 9======
+Added:		- strtok2 (in strtok2.c): custom string tokenizer
+		- builtin cd2 (in chdir.c): changes the shell's pwd, handling
+		no argument, and argument '-'.
+Replaced:	the use of the standard's strtok() with strtok2()
+Modified:	strtok2.c: replaced first FOR loop's condition (*ptc) with 1
+Fixed:		- strtok2: a bug where delimeter characters before first
+		non-delimeter caused the untimely return of NULL.
+		- cd2: a situation where the first call to setenv(), when
+		argument to cd is -, caused the value of OLDPWD to be replaced
+		with PWD just before the second call, thus preventing PWD from
+		being properly updated in the environment.
+
+========================Task 11===========================
+Modified:	the structure of the shell driver. After getting user input,
+		control is passed to a new subroutine, parser_launcher(), that
+		handles input parsing, and execution of commands, even
+		multiple user commands (in a command-line script).
+
+Added:		- parser_launcher: handles parsing and execution of commands.
+		- mult_cmd_launcher (in parser_launcher.c): launches multiple
+		user commands in one shell loop.
+		- char_srch: searches for a character in a string.
+
+=======================Task 12============================
+Added:		- a _struct shell_ type defined in main.h. Has one field for an
+		int named _exstat_ to store the exit status of the last-run
+		program.
+
+Modified:	- parser_launcher: added functionality that enables the
+		handling of the logical operators && and ||.
+		- char_srch: added functionality to search for the presence of
+		the logical operators.
+		- launch_other: now collects and stores the executed program's
+		exit status in shell.exstat
+
+=======================Task 13============================
+Added:		1. alias2: manages the process' alias environment.
+		2. upd_alias_val: sets alias for requests of the form
+		'name=value'.
+		3. upd_alias_noval: sets alias for requests of the form 'name='
+		4. print_alias: prints alias(es) of specified name(s).
