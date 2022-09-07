@@ -34,11 +34,14 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 	shell.alias = malloc(sizeof(char *));
 	handle_dpmall(shell.alias);
 	shell.alias[0] = NULL;
+	shell.loop_cnt = 0;
+	shell.name = argv[0];
 	while (a)
 	{
+		shell.loop_cnt++;
 		b = 1;
 		line = NULL;
-		fprintf2(STDOUT_FILENO, "#cisfun$ ");
+		fprintf2(STDOUT_FILENO, "$ ");
 		if (getline3(&line, &n, stdin) == 0)
 		{
 			status = 1;

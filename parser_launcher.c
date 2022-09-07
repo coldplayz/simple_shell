@@ -64,7 +64,7 @@ int parser_launcher(char *line, char ***envp,
 		if (!str_ar)
 		{
 			free(line);
-			fprintf2(STDERR_FILENO, "%s: No such file or directory\n", shell_nm);
+			shell_nm = shell_nm;
 			return (1);
 		}
 		if (str_ar[0] == NULL)
@@ -111,7 +111,7 @@ int mult_cmd_launcherSEM(char *shell_nm, int *b, char ***envp,
 		str_ar2 = in_parser(str_ar[a], *envp, bltin_nm, b);
 		if (!str_ar2) /* command not found */
 		{
-			fprintf2(STDERR_FILENO, "%s: No such file or directory\n", shell_nm);
+			shell_nm = shell_nm;
 			c = 1;
 			continue;
 		}
@@ -159,7 +159,7 @@ int mult_cmd_launcherAND(char *shell_nm, int *b, char ***envp,
 		str_ar2 = in_parser(str_ar[a], *envp, bltin_nm, b);
 		if (!str_ar2) /* command not found */
 		{
-			fprintf2(STDERR_FILENO, "%s: No such file or directory\n", shell_nm);
+			shell_nm = shell_nm;
 			c = 1;
 			break;
 		}
@@ -213,7 +213,7 @@ int mult_cmd_launcherOR(char *shell_nm, int *b, char ***envp,
 		str_ar2 = in_parser(str_ar[a], *envp, bltin_nm, b);
 		if (!str_ar2) /* command not found */
 		{
-			fprintf2(STDERR_FILENO, "%s: No such file or directory\n", shell_nm);
+			shell_nm = shell_nm;
 			c = 1;
 			continue;
 		}

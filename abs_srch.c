@@ -35,6 +35,8 @@ void abs_srch(char ***sarr, char **envp)
 	ptc = isinPATH2((*sarr)[0], envp);
 	if (!ptc)
 	{
+		fprintf2(STDERR_FILENO, "%s: %d: %s: not found\n",
+				shell.name, shell.loop_cnt, (*sarr)[0]); /* program non-existent */
 		free(*sarr);
 		*sarr = NULL;
 	}

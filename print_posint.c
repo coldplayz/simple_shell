@@ -16,6 +16,7 @@ int print_posint(int n)
 	ptc = malloc(sizeof(char) * len + 1);
 	if (ptc == NULL)
 	{
+		perror("print-posint-malloc");
 		return (0);
 	}
 	j = 0;
@@ -30,7 +31,7 @@ int print_posint(int n)
 
 	for (i = (len - 1); i >= 0; i--)
 	{
-		write(1, &ptc[i], 1);
+		write(printf3.fd, &ptc[i], 1);
 		bytes_written++;
 	}
 

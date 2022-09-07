@@ -27,11 +27,16 @@ typedef struct list_s
  * need to be accessed and/or modified at different stack levels.
  * @exstat: exit status of last launched program/command.
  * @alias: array of strings representing the alias list.
+ * @loop_cnt: keeps record of the number of
+ * times the shell's main loop has been run.
+ * @name: the program name.
  */
 typedef struct shell
 {
 	int exstat;
 	char **alias;
+	long unsigned int loop_cnt;
+	char *name;
 } shell_t;
 shell_t shell;
 

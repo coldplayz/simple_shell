@@ -16,7 +16,7 @@
  */
 int *printfext2(va_list ap, char c)
 {
-	int *pti, ai[2] = {0, 0};
+	int *pti __attribute__((unused)), ai[2] = {0, 0};
 
 	pti = ai;
 	switch (c)
@@ -31,7 +31,7 @@ int *printfext2(va_list ap, char c)
 			pti = printptr(va_arg(ap, void *));
 			break;
 		default:
-			pti[0] = printfext1(ap, c);
+			printf3.pti[0] = printfext1(ap, c);
 	}
-	return (pti);
+	return (printf3.pti);
 }

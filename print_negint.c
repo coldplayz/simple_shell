@@ -18,6 +18,7 @@ int print_negint(int n)
 	ptc = malloc(sizeof(char) * len + 2);
 	if (ptc == NULL)
 	{
+		perror("print_negint-malloc");
 		return (0);
 	}
 	j = 0;
@@ -33,7 +34,7 @@ int print_negint(int n)
 
 	for (i = len; i >= 0; i--)
 	{
-		write(1, &ptc[i], 1);
+		write(printf3.fd, &ptc[i], 1);
 		bytes_written++;
 	}
 
