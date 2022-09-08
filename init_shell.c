@@ -33,4 +33,6 @@ void init_shell(shell_t *shell, char *av0)
 
 	shell->loop_cnt = 0;
 	shell->name = av0;
+
+	shell->quick_exit = 1;
 }

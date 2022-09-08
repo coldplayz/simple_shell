@@ -59,7 +59,6 @@ setenv2
 shstruct
 sigint_handler
 main
-init_shell
 str2posint
 str_arr
 str_arrlen

@@ -39,14 +39,27 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 		shstruct(NULL)->loop_cnt++;
 		b = 1;
 		line = NULL;
-		fprintf2(STDOUT_FILENO, "$ ");
-		if (getline3(&line, &n, stdin) == 0)
+		if (isatty(STDIN_FILENO) == 1)
 		{
-			status = 1;
-			break;
+			fprintf2(STDOUT_FILENO, "$ ");
+			if (getline3(&line, &n, stdin) == 0)
+			{
+				status = 1;
+				break;
+			}
+		}
+		else
+		{
+			shell.quick_exit = 0;
+			if (getline3(&line, &n, stdin) == 0)
+			{
+				status = 1;
+				break;
+			}
 		}
 
 		a = parser_launcher(line, &envp, bltin_nm, &b, &status, &_free, argv[0]);
+		a = shell.quick_exit;
 	}
 	if (_free)
 		handle_free("e", 0, envp);

@@ -42,6 +42,7 @@ typedef struct shell
 	char *name;
 	int pti[2];
 	int fd;
+	int quick_exit;
 	char *content;
 } shell_t;
 

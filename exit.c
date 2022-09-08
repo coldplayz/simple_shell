@@ -28,6 +28,7 @@
 int exit2(char **sarr, char ***envp __attribute__((unused)),
 		int *status, int *free __attribute__((unused)))
 {
+	shstruct(NULL)->quick_exit = 0;
 	if (sarr[1])
 	{
 		*status = str2posint(sarr[1]);
