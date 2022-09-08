@@ -40,7 +40,7 @@ ssize_t getline3(char **line, size_t *n, FILE * stream __attribute__((unused)))
 {
 	char *buff;
 	ssize_t m;
-	int a;
+	int a = 1;
 	size_t i;
 	unsigned int bsize = BUFSIZE, old_bsize = 0;
 
@@ -52,7 +52,7 @@ ssize_t getline3(char **line, size_t *n, FILE * stream __attribute__((unused)))
 		exit(EXIT_FAILURE);
 	}
 
-	for (i = 0; 1; i++)
+	for (i = 0; a; i++)
 	{
 		a = read(STDIN_FILENO, (buff + old_bsize), BUFSIZE);
 		if (a == -1)
@@ -67,7 +67,10 @@ ssize_t getline3(char **line, size_t *n, FILE * stream __attribute__((unused)))
 			handle_realloc2(&buff, &old_bsize, &bsize, *line);
 		else if ((a >= 0) && (a < BUFSIZE)) /* end of transmission/input */
 		{
-			return (EOF_handler(&buff, old_bsize, a, m, n, line, bsize));
+			old_bsize += a;
+			a == 0 ? (shstruct(NULL)->null_term = 1) : (shstruct(NULL)->null_term = 0);
+			if (!(EOF_handler(&buff, old_bsize, a, m, n, line, bsize)))
+				return (0);
 		}
 	}
 
@@ -92,7 +95,11 @@ ssize_t getline3(char **line, size_t *n, FILE * stream __attribute__((unused)))
 ssize_t EOF_handler(char **buff, unsigned int old_bsize,
 		int a, ssize_t m, size_t *n, char **line, unsigned int bsize)
 {
-	(*buff)[old_bsize + a] = 0;
+	if (shstruct(NULL)->null_term)
+	{
+		(*buff)[old_bsize + a] = 0;
+	}
+
 	if (!val_line(buff)) /* input end: check all xters written to buff so far*/
 	{
 		free(*buff);

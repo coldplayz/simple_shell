@@ -33,6 +33,7 @@ parser_launcher
 mult_cmd_launcherSEM
 mult_cmd_launcherAND
 mult_cmd_launcherOR
+mclTTY
 pah
 printS
 printX

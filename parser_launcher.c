@@ -25,6 +25,9 @@ int mult_cmd_launcherAND(char *shell_nm, int *b, char ***envp,
 int mult_cmd_launcherOR(char *shell_nm, int *b, char ***envp,
 		int *status, int *_free, char **bltin_nm, char *line);
 
+int mclTTY(char *shell_nm, int *b, char ***envp,
+		int *status, int *_free, char **bltin_nm, char *line);
+
 /**
  * parser_launcher - handles the shell's command parsing and launching.
  * @line: input string.
@@ -60,6 +63,8 @@ int parser_launcher(char *line, char ***envp,
 	}
 	else
 	{
+		if (!(isatty(STDIN_FILENO)))
+			return (mclTTY(shell_nm, b, envp, status, _free, bltin_nm, line));
 		str_ar = in_parser(line, *envp, bltin_nm, b);
 		if (!str_ar)
 		{
@@ -72,9 +77,7 @@ int parser_launcher(char *line, char ***envp,
 			handle_free("sd", *b, line, str_ar);
 			return (1);
 		}
-
 		c = launcher(str_ar, envp, bltin_nm, status, _free);
-
 		handle_free("sd", *b, line, str_ar);
 		*b = 1;
 	}
@@ -233,6 +236,55 @@ int mult_cmd_launcherOR(char *shell_nm, int *b, char ***envp,
 		{
 			break;
 		}
+	}
+	handle_free("sd", 0, line, str_ar);
+
+	return (c);
+}
+
+
+
+
+/**
+ * mclTTY - handles the shell's command parsing and launching.
+ * @line: input string.
+ * @envp: address of the process' environment.
+ * @bltin_nm: array of names of built-in commands.
+ * @b: address of int determining how to free the arrays of command strings.
+ * @status: address of int storing exit status.
+ * @_free: address of int determining whether or not to free envp.
+ * @shell_nm: the shell's pathname.
+ *
+ * Return: always 1, except in certain cases like when exit() is called, then 0
+ */
+int mclTTY(char *shell_nm, int *b, char ***envp,
+		int *status, int *_free, char **bltin_nm, char *line)
+{
+	int a, c = 1;
+	char **str_ar, **str_ar2;
+
+	str_ar = str_arr(line, " \n"); /* get array of strings of multiple commands */
+
+	for (a = 0; (a < str_arrlen(str_ar) && c); a++) /* run subshell 4 each cmd */
+	{
+		str_ar2 = in_parser(str_ar[a], *envp, bltin_nm, b);
+		if (!str_ar2) /* command not found */
+		{
+			shell_nm = shell_nm;
+			c = 1;
+			continue;
+		}
+		if (str_ar2[0] == NULL) /* no input - only newline and null character */
+		{
+			handle_free("d", *b, str_ar2);
+			c = 1;
+			continue;
+		}
+
+		c = launcher(str_ar2, envp, bltin_nm, status, _free);
+
+		handle_free("d", *b, str_ar2);
+		*b = 1;
 	}
 	handle_free("sd", 0, line, str_ar);
 

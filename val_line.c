@@ -31,7 +31,7 @@ int val_line(char **input)
 	{
 		if ((*input)[i] == '\n')
 		{
-			(*input)[++i] = 0;
+			/* (*input)[++i] = 0; */
 			return (1);
 		}
 	}

@@ -33,6 +33,10 @@ typedef struct list_s
  * @pti: array of two integers storing
  * return values from printfext2() function calls.
  * @fd: file descriptor of the file to write to.
+ * @quick_exit: int determining whether to exit the shell loop (0) or not (1).
+ * @null_term: int determining whether to
+ * null-terminate read input to be parsed by EOF_handler.
+ * @content: a message string about the struct contents.
  */
 typedef struct shell
 {
@@ -43,6 +47,7 @@ typedef struct shell
 	int pti[2];
 	int fd;
 	int quick_exit;
+	int null_term;
 	char *content;
 } shell_t;
 

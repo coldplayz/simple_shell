@@ -35,4 +35,6 @@ void init_shell(shell_t *shell, char *av0)
 	shell->name = av0;
 
 	shell->quick_exit = 1;
+
+	shell->null_term = 0;
 }
