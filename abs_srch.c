@@ -36,8 +36,8 @@ void abs_srch(char ***sarr, char **envp)
 	if (!ptc)
 	{
 		/* program non-existent */
-		fprintf2(STDERR_FILENO, "%s: %d: %s: not found\n",
-				shstruct(NULL)->name, shstruct(NULL)->loop_cnt, (*sarr)[0]);
+		/* fprintf2(STDERR_FILENO, "%s: %d: %s: not found\n", */
+				/* shstruct(NULL)->name, shstruct(NULL)->loop_cnt, (*sarr)[0]); */
 		free(*sarr);
 		*sarr = NULL;
 	}

@@ -26,6 +26,11 @@ void psarr(char **sarr, char c)
 {
 	int i;
 
+	if (!sarr)
+	{
+		return;
+	}
+
 	fprintf2(STDOUT_FILENO, "%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",
 			c, c, c, c, c, c, c, c, c, c, c, c, c, c, c, c, c);
 	for (i = 0; sarr[i]; i++)

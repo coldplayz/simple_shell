@@ -52,9 +52,12 @@ char *isinPATH2(char *cmd_name, char **envp)
 		path = strconcatl(3, pathsv[i], "/", cmd_name);
 		if (stat(path, &st) == 0)
 		{
-			free(paths_cpy);
-			free(pathsv);
-			return (path);
+			if (isexec(&st, cmd_name))
+			{
+				free(paths_cpy);
+				free(pathsv);
+				return (path);
+			}
 		}
 		free(path);
 	}
