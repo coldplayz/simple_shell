@@ -66,13 +66,13 @@ int parser_launcher(char *line, char ***envp,
 		if (!(isatty(STDIN_FILENO)))
 			return (mclTTY(shell_nm, b, envp, status, _free, bltin_nm, line));
 		str_ar = in_parser(line, *envp, bltin_nm, b);
-		if (!str_ar)
+		if (!str_ar) /* command not found */
 		{
 			free(line);
 			shell_nm = shell_nm;
 			return (1);
 		}
-		if (str_ar[0] == NULL)
+		if (str_ar[0] == NULL) /* no input */
 		{
 			handle_free("sd", *b, line, str_ar);
 			return (1);

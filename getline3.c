@@ -94,7 +94,9 @@ ssize_t getline3(char **line, size_t *n, FILE * stream __attribute__((unused)))
 ssize_t EOF_handler(char **buff, unsigned int old_bsize,
 		int a, ssize_t m, size_t *n, char **line, unsigned int bsize)
 {
-	(*buff)[old_bsize + a] = 0;
+	(void)old_bsize;
+	(void)a;
+
 	if (!val_line(buff)) /* input end: check all xters written to buff so far*/
 	{
 		free(*buff);
