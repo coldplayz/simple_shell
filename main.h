@@ -37,6 +37,7 @@ typedef struct list_s
  * @quick_exit: int determining whether to exit the shell loop (0) or not (1).
  * @null_term: int determining whether to
  * null-terminate read input to be parsed by EOF_handler.
+ * @quote: an int determining whether to tokenize quoted strings (0) or not (1)
  * @content: a message string about the struct contents.
  */
 typedef struct shell
@@ -49,6 +50,7 @@ typedef struct shell
 	int fd;
 	int quick_exit;
 	int null_term;
+	int quote;
 	char *content;
 } shell_t;
 

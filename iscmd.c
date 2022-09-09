@@ -52,17 +52,18 @@ int iscmd(char *cmd_name, char **envp)
 		paths_cpy = strdup2(paths);
 		pathsv = str_arr(paths_cpy, ":");
 	}
-
 	for (i = 0; pathsv[i]; i++)
 	{
 		path = strconcatl(3, pathsv[i], "/", cmd_name);
 		if (stat(path, &st) == 0)
 		{
-			free(paths_cpy);
-			free(pathsv);
-			free(path);
 			if (isexec(&st, cmd_name))
+			{
+				free(paths_cpy);
+				free(pathsv);
+				free(path);
 				return (1);
+			}
 		}
 		free(path);
 	}
