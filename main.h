@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <signal.h>
+#include <sys/stat.h>
 
 #define BUFSIZE 512
 
@@ -260,6 +261,16 @@ int print_alias(char **sarr, char ***alias);
 void find_quote(char **ptc, int *n);
 void init_shell(shell_t *shell, char *av0);
 shell_t *shstruct(shell_t *shell);
+int iscmd(char *cmd_name, char **envp);
+int mclTTY2(char *shell_nm, int *b, char ***envp,
+		int *status, int *_free, char **bltin_nm, char *line);
+void psarr(char **sarr, char c);
+int handle_mall(void *buff);
+void pipe_parser(char *line, char **envp);
+void pstr(char *str, char c);
+int isscript(char *buff, char *sh);
+int is_binsh(char *filename);
+int isexec(struct stat *st, char *filename);
 
 
 

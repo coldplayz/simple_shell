@@ -15,6 +15,9 @@
  * @str: string to tokenize.
  * @delim: string made up of delimiter characters.
  *
+ * Description: the pointers in the returned array
+ * are simply addresses in str, not some malloc'd addresses.
+ * Hence, you should only conduct L0 free.
  * Return: a NULL-teminated array of token strings.
  */
 char **str_arr(char *str, const char *delim)

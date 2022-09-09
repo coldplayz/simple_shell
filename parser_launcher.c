@@ -46,6 +46,8 @@ int parser_launcher(char *line, char ***envp,
 	int c = 1;
 	char **str_ar;
 
+	if (!(isatty(STDIN_FILENO)))
+		pipe_parser(line, *envp);
 	if (char_srch(line, ';'))
 	{
 		return (mult_cmd_launcherSEM(shell_nm, b,
@@ -63,8 +65,6 @@ int parser_launcher(char *line, char ***envp,
 	}
 	else
 	{
-		if (!(isatty(STDIN_FILENO)))
-			return (mclTTY(shell_nm, b, envp, status, _free, bltin_nm, line));
 		str_ar = in_parser(line, *envp, bltin_nm, b);
 		if (!str_ar) /* command not found */
 		{
@@ -261,12 +261,20 @@ int mclTTY(char *shell_nm, int *b, char ***envp,
 		int *status, int *_free, char **bltin_nm, char *line)
 {
 	int a, c = 1;
-	char **str_ar, **str_ar2;
+	char *line_cpy, **str_ar, **str_ar2;
 
-	str_ar = str_arr(line, " \n"); /* get array of strings of multiple commands */
+	line_cpy = strdup2(line);
+	str_ar = str_arr(line_cpy, " \n"); /* get array of strings of multiple commands */
+	if (!(iscmd(str_ar[1], *envp)))
+	{
+		ps("here0");
+		free(line_cpy);
+		return (mclTTY2(shell_nm, b, envp, status, _free, bltin_nm, line));
+	}
 
 	for (a = 0; (a < str_arrlen(str_ar) && c); a++) /* run subshell 4 each cmd */
 	{
+		ps("here1");
 		str_ar2 = in_parser(str_ar[a], *envp, bltin_nm, b);
 		if (!str_ar2) /* command not found */
 		{
@@ -280,13 +288,14 @@ int mclTTY(char *shell_nm, int *b, char ***envp,
 			c = 1;
 			continue;
 		}
+		psarr(str_ar2, '+');
 
 		c = launcher(str_ar2, envp, bltin_nm, status, _free);
 
 		handle_free("d", *b, str_ar2);
 		*b = 1;
 	}
-	handle_free("sd", 0, line, str_ar);
+	handle_free("ssd", 0, line, line_cpy, str_ar);
 
 	return (c);
 }
