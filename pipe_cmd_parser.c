@@ -34,6 +34,14 @@ void pipe_parser(char *line, char **envp)
 	sarr = str_arr(line2, " \n\0"); /* to free sarr */
 
 	token = strtok3(line, " \n\0", 0); /* strtok3 leaves line unchanged */
+	if (!token)
+	{
+		shstruct(NULL)->quick_exit = 0;
+		free(line2);
+		free(sarr);
+		return;
+	}
+
 	for (i = 1; sarr[i]; i++)
 	{
 		token = strtok3(NULL, " \n\0", 0); /* starts from second word of line */
