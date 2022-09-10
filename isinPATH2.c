@@ -41,9 +41,8 @@ char *isinPATH2(char *cmd_name, char **envp)
 		return (NULL);
 	}
 
-	if (!paths)
+	if (!paths || paths[0] == 0)
 	{
-		write(STDERR_FILENO, "isinPATH2: pathnoval\n", 21);
 		return (NULL);
 	}
 	else

@@ -41,4 +41,6 @@ void init_shell(shell_t *shell, char *av0)
 	shell->quote = 0;
 
 	shell->free0 = 1;
+
+	shell->exstat = 0;
 }

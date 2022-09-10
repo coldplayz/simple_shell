@@ -65,7 +65,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 		handle_free("e", 0, envp);
 	handle_free("e", 0, shstruct(NULL)->alias);
 
-	return (status);
+	return (shstruct(NULL)->exstat);
 }
 
 /* ===============NOTES=============== */

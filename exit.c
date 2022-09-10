@@ -28,14 +28,15 @@
 int exit2(char **sarr, char ***envp __attribute__((unused)),
 		int *status, int *free __attribute__((unused)))
 {
+	(void)status;
 	shstruct(NULL)->quick_exit = 0;
 	if (sarr[1])
 	{
-		*status = str2posint(sarr[1]);
+		shstruct(NULL)->exstat = str2posint(sarr[1]);
 		return (0);
 	}
 
-	*status = 0;
+	shstruct(NULL)->exstat = 0;
 
 	return (0);
 }

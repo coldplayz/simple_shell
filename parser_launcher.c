@@ -74,11 +74,11 @@ int parser_launcher(char *line, char ***envp,
 		}
 		if (str_ar[0] == NULL) /* no input */
 		{
-			handle_free("sd", *b, line, str_ar);
+			handle_free("sd", shstruct(NULL)->free0, line, str_ar);
 			return (1);
 		}
 		c = launcher(str_ar, envp, bltin_nm, status, _free);
-		handle_free("sd", *b, line, str_ar);
+		handle_free("sd", shstruct(NULL)->free0, line, str_ar);
 		*b = 1;
 	}
 
@@ -120,7 +120,7 @@ int mult_cmd_launcherSEM(char *shell_nm, int *b, char ***envp,
 		}
 		if (str_ar2[0] == NULL) /* no input - only newline and null character */
 		{
-			handle_free("d", *b, str_ar2);
+			handle_free("d", shstruct(NULL)->free0, str_ar2);
 			c = 1;
 			continue;
 		}
@@ -168,14 +168,14 @@ int mult_cmd_launcherAND(char *shell_nm, int *b, char ***envp,
 		}
 		if (str_ar2[0] == NULL) /* no input - only newline and null character */
 		{
-			handle_free("d", *b, str_ar2);
+			handle_free("d", shstruct(NULL)->free0, str_ar2);
 			c = 1;
 			continue;
 		}
 
 		c = launcher(str_ar2, envp, bltin_nm, status, _free);
 
-		handle_free("d", *b, str_ar2);
+		handle_free("d", shstruct(NULL)->free0, str_ar2);
 		*b = 1;
 		if (shstruct(NULL)->exstat != 0)
 		{
@@ -222,14 +222,14 @@ int mult_cmd_launcherOR(char *shell_nm, int *b, char ***envp,
 		}
 		if (str_ar2[0] == NULL) /* no input - only newline and null character */
 		{
-			handle_free("d", *b, str_ar2);
+			handle_free("d", shstruct(NULL)->free0, str_ar2);
 			c = 1;
 			continue;
 		}
 
 		c = launcher(str_ar2, envp, bltin_nm, status, _free);
 
-		handle_free("d", *b, str_ar2);
+		handle_free("d", shstruct(NULL)->free0, str_ar2);
 		*b = 1;
 
 		if (shstruct(NULL)->exstat == 0)
@@ -282,14 +282,14 @@ int mclTTY(char *shell_nm, int *b, char ***envp,
 		}
 		if (str_ar2[0] == NULL) /* no input - only newline and null character */
 		{
-			handle_free("d", *b, str_ar2);
+			handle_free("d", shstruct(NULL)->free0, str_ar2);
 			c = 1;
 			continue;
 		}
 
 		c = launcher(str_ar2, envp, bltin_nm, status, _free);
 
-		handle_free("d", *b, str_ar2);
+		handle_free("d", shstruct(NULL)->free0, str_ar2);
 		*b = 1;
 	}
 	handle_free("ssd", 0, line, line_cpy, str_ar);
