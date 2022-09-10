@@ -36,6 +36,11 @@ char *isinPATH2(char *cmd_name, char **envp)
 	struct stat st;
 	int i;
 
+	if (cmd_name[0] == '\0')
+	{
+		return (NULL);
+	}
+
 	if (!paths)
 	{
 		write(STDERR_FILENO, "isinPATH2: pathnoval\n", 21);
@@ -44,7 +49,7 @@ char *isinPATH2(char *cmd_name, char **envp)
 	else
 	{
 		paths_cpy = strdup2(paths);
-		pathsv = str_arr(paths_cpy, ":");
+		pathsv = str_arr(paths_cpy, ":\0");
 	}
 
 	for (i = 0; pathsv[i]; i++)

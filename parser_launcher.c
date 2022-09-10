@@ -107,7 +107,7 @@ int mult_cmd_launcherSEM(char *shell_nm, int *b, char ***envp,
 	int a, c = 1;
 	char **str_ar, **str_ar2;
 
-	str_ar = str_arr(line, ";\n"); /* get array of strings of multiple commands */
+	str_ar = str_arr(line, ";\n\0"); /* get array of strings of multiple commands */
 
 	for (a = 0; (a < str_arrlen(str_ar) && c); a++) /* run subshell 4 each cmd */
 	{
@@ -155,7 +155,7 @@ int mult_cmd_launcherAND(char *shell_nm, int *b, char ***envp,
 	int a, c = 1;
 	char **str_ar, **str_ar2;
 
-	str_ar = str_arr(line, "&\n"); /* get array of strings of multiple commands */
+	str_ar = str_arr(line, "&\n\0"); /* get array of strings of multiple commands */
 
 	for (a = 0; (a < str_arrlen(str_ar) && c); a++) /* run subshell 4 each cmd */
 	{
@@ -209,7 +209,7 @@ int mult_cmd_launcherOR(char *shell_nm, int *b, char ***envp,
 	int a, c = 1;
 	char **str_ar, **str_ar2;
 
-	str_ar = str_arr(line, "|\n"); /* get array of strings of multiple commands */
+	str_ar = str_arr(line, "|\n\0"); /* get array of strings of multiple commands */
 
 	for (a = 0; (a < str_arrlen(str_ar) && c); a++) /* run subshell 4 each cmd */
 	{
@@ -264,17 +264,15 @@ int mclTTY(char *shell_nm, int *b, char ***envp,
 	char *line_cpy, **str_ar, **str_ar2;
 
 	line_cpy = strdup2(line);
-	str_ar = str_arr(line_cpy, " \n"); /* get array of strings of multiple commands */
+	str_ar = str_arr(line_cpy, " \n\0"); /* get array of strings of multiple commands */
 	if (!(iscmd(str_ar[1], *envp)))
 	{
-		ps("here0");
 		free(line_cpy);
 		return (mclTTY2(shell_nm, b, envp, status, _free, bltin_nm, line));
 	}
 
 	for (a = 0; (a < str_arrlen(str_ar) && c); a++) /* run subshell 4 each cmd */
 	{
-		ps("here1");
 		str_ar2 = in_parser(str_ar[a], *envp, bltin_nm, b);
 		if (!str_ar2) /* command not found */
 		{
@@ -288,7 +286,6 @@ int mclTTY(char *shell_nm, int *b, char ***envp,
 			c = 1;
 			continue;
 		}
-		psarr(str_ar2, '+');
 
 		c = launcher(str_ar2, envp, bltin_nm, status, _free);
 

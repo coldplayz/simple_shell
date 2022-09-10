@@ -31,12 +31,12 @@ void pipe_parser(char *line, char **envp)
 	int i;
 
 	line2 = strdup2(line); /* to free line2 */
-	sarr = str_arr(line2, " \n"); /* to free sarr */
+	sarr = str_arr(line2, " \n\0"); /* to free sarr */
 
-	token = strtok3(line, " \n", 0); /* strtok3 leaves line unchanged */
+	token = strtok3(line, " \n\0", 0); /* strtok3 leaves line unchanged */
 	for (i = 1; sarr[i]; i++)
 	{
-		token = strtok3(NULL, " \n", 0); /* starts from second word of line */
+		token = strtok3(NULL, " \n\0", 0); /* starts from second word of line */
 		if (iscmd(sarr[i], envp))
 		{
 			*(token - 1) = ';'; /* place ';' before the first xter of a command */
@@ -88,7 +88,7 @@ char *strtok3(char *str, const char *delim, int quote)
 				flag = 0;
 			}
 		}
-		if (flag)
+		if (flag && *ptc)
 		{
 			if (++n == 1)
 				char1 = ptc;

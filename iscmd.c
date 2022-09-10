@@ -50,7 +50,7 @@ int iscmd(char *cmd_name, char **envp)
 	else
 	{
 		paths_cpy = strdup2(paths);
-		pathsv = str_arr(paths_cpy, ":");
+		pathsv = str_arr(paths_cpy, ":\0");
 	}
 	for (i = 0; pathsv[i]; i++)
 	{

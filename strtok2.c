@@ -46,7 +46,7 @@ char *strtok2(char *str, const char *delim, int quote)
 				flag = 0;
 			}
 		}
-		if (flag)
+		if (flag && *ptc)
 		{
 			if (++n == 1)
 				char1 = ptc;
