@@ -36,6 +36,7 @@ void pipe_parser(char *line, char **envp)
 	token = strtok3(line, " \n\0", 0); /* strtok3 leaves line unchanged */
 	if (!token)
 	{
+		/* piped input contains only delimiter character(s) */
 		shstruct(NULL)->quick_exit = 0;
 		free(line2);
 		free(sarr);

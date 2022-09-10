@@ -29,11 +29,10 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 	shell_t shell;
 	size_t n = 0;
 	int status = 0, a = 1, b = 1, _free = 0;
-	char *line, *bltin_nm[]
-		= {"exit", "setenv", "unsetenv", "cd", "env", "alias", NULL};
+	char *line, **bltin_nm = shell.bltin_nm;
 
-	init_shell(&shell, argv[0]);
-	shstruct(&shell);
+	init_shell(&shell, argv[0]); /* initialize the shell's struct */
+	shstruct(&shell); /* store the address of the shell's struct in shstruct */
 	while (a)
 	{
 		shstruct(NULL)->loop_cnt++;

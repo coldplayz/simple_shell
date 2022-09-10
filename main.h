@@ -39,6 +39,7 @@ typedef struct list_s
  * null-terminate read input to be parsed by EOF_handler.
  * @quote: an int determining whether to tokenize quoted strings (0) or not (1)
  * @free0: an int determining whether to free str_ar[0] or not (0).
+ * @bltin_nm: array of strings storing the names of built-in shell commands.
  * @content: a message string about the struct contents.
  */
 typedef struct shell
@@ -53,6 +54,7 @@ typedef struct shell
 	int null_term;
 	int quote;
 	int free0;
+	char *bltin_nm[7];
 	char *content;
 } shell_t;
 

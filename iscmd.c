@@ -16,6 +16,8 @@
 #define ps(x) (printf("%s\n", (x)))
 #define pd(x) (printf("%d\n", (x)))
 
+int is_bltin(char *cmd_name);
+
 
 /**
  * iscmd - checks if a command/program name is
@@ -36,6 +38,8 @@ int iscmd(char *cmd_name, char **envp)
 	struct stat st;
 	int i;
 
+	if (is_bltin(cmd_name))
+		return (1);
 	if (stat(cmd_name, &st) == 0)
 	{
 		if (isexec(&st, cmd_name))
@@ -68,6 +72,28 @@ int iscmd(char *cmd_name, char **envp)
 	}
 	free(paths_cpy);
 	free(pathsv);
+
+	return (0);
+}
+
+
+/**
+ * is_bltin - checks whether a string represents a built-in command.
+ * @cmd_name: the string to check.
+ *
+ * Return: 1 if built-in; 0 otherwise.
+ */
+int is_bltin(char *cmd_name)
+{
+	int i;
+
+	for (i = 0; shstruct(NULL)->bltin_nm[i]; i++)
+	{
+		if (_strcmp(shstruct(NULL)->bltin_nm[i], cmd_name) == 0)
+		{
+			return (1);
+		}
+	}
 
 	return (0);
 }

@@ -36,7 +36,5 @@ int exit2(char **sarr, char ***envp __attribute__((unused)),
 		return (0);
 	}
 
-	shstruct(NULL)->exstat = 0;
-
 	return (0);
 }
