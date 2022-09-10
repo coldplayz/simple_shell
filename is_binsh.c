@@ -32,7 +32,6 @@ int is_binsh(char *filename)
 	fdrd = open(filename, O_RDONLY);
 	if (fdrd == -1)
 	{
-		perror("open");
 		return (1);
 	}
 
