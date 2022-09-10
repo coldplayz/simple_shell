@@ -38,6 +38,7 @@ typedef struct list_s
  * @null_term: int determining whether to
  * null-terminate read input to be parsed by EOF_handler.
  * @quote: an int determining whether to tokenize quoted strings (0) or not (1)
+ * @free0: an int determining whether to free str_ar[0] or not (0).
  * @content: a message string about the struct contents.
  */
 typedef struct shell
@@ -51,6 +52,7 @@ typedef struct shell
 	int quick_exit;
 	int null_term;
 	int quote;
+	int free0;
 	char *content;
 } shell_t;
 

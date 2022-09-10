@@ -39,4 +39,6 @@ void init_shell(shell_t *shell, char *av0)
 	shell->null_term = 0;
 
 	shell->quote = 0;
+
+	shell->free0 = 1;
 }

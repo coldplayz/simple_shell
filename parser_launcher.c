@@ -127,7 +127,7 @@ int mult_cmd_launcherSEM(char *shell_nm, int *b, char ***envp,
 
 		c = launcher(str_ar2, envp, bltin_nm, status, _free);
 
-		handle_free("d", *b, str_ar2);
+		handle_free("d", shstruct(NULL)->free0, str_ar2);
 		*b = 1;
 	}
 	handle_free("sd", 0, line, str_ar);

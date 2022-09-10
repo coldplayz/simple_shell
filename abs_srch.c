@@ -43,6 +43,7 @@ void abs_srch(char ***sarr, char **envp)
 	}
 	else
 	{
+		shstruct(NULL)->free0 = 1;
 		(*sarr)[0] = ptc;
 	}
 }
