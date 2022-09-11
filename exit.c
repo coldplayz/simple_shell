@@ -37,7 +37,7 @@ int exit2(char **sarr, char ***envp __attribute__((unused)),
 		stat = str2posint(sarr[1]);
 		if (stat == -1)
 		{
-			fprintf2(STDERR_FILENO, "%s: %d: exit: illegal number: %s\n",
+			fprintf2(STDERR_FILENO, "%s: %d: exit: Illegal number: %s\n",
 					shstruct(NULL)->name, shstruct(NULL)->loop_cnt, sarr[1]);
 			shstruct(NULL)->exstat = 2;
 		}
