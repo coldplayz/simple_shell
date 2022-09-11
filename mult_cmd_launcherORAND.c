@@ -107,7 +107,7 @@ int ORAND_map(char *line, int *map)
 {
 	int i, val;
 
-	val = is_ORAND2(line);
+	val = is_ORAND3(line);
 	if (!val)
 	{
 		return (0);
@@ -171,7 +171,8 @@ int is_ORAND3(char *str)
  * is_ORAND2 - searches for the presence of "&&" and/or "||" tokens in str.
  * @str: string to search in.
  *
- * Return: 1 if "||" is found; 2 if "&&" is found; and 0 otherwise.
+ * Return: 1 if "||" is found or
+ * 2 if "&&" is found, whichever is first found; and 0 otherwise.
  */
 int is_ORAND2(char *str)
 {
@@ -214,22 +215,22 @@ int is_ORAND2(char *str)
 	{
 		if (flag2)
 		{
-			return (2);
+			return (2); /* && was found but || wasn't */
 		}
 		else
 		{
-			return (0);
+			return (0); /* neither was found */
 		}
 	}
 	else if (flag1)
 	{
 		if (!flag2)
 		{
-			return (1);
+			return (1); /* || was found but && wasn't */
 		}
 		else
 		{
-			if (ptc1 < ptc2)
+			if (ptc1 < ptc2) /* both were found */
 			{
 				return (1);
 			}
