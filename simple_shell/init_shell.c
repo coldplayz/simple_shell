@@ -17,6 +17,8 @@
 #define plu(x) (printf("%lu", (x)))
 
 
+void init_bltin_nm(shell_t *shell);
+
 /**
  * init_shell - initializes the fields in the struct shell_t.
  * @shell: address of the struct to initialize.
@@ -33,4 +35,39 @@ void init_shell(shell_t *shell, char *av0)
 
 	shell->loop_cnt = 0;
 	shell->name = av0;
+
+	shell->quick_exit = 1;
+
+	shell->null_term = 0;
+
+	shell->quote = 0;
+
+	shell->free0 = 1;
+
+	shell->exstat = 0;
+
+	init_bltin_nm(shell);
+
+}
+
+
+/**
+ * init_bltin_nm - initializes the array of names of built-in functions.
+ * @shell: pointer to the shell struct.
+ */
+void init_bltin_nm(shell_t *shell)
+{
+	shell->bltin_nm[0] = "exit";
+
+	shell->bltin_nm[1] = "setenv";
+
+	shell->bltin_nm[2] = "unsetenv";
+
+	shell->bltin_nm[3] = "cd";
+
+	shell->bltin_nm[4] = "env";
+
+	shell->bltin_nm[5] = "alias";
+
+	shell->bltin_nm[6] = NULL;
 }

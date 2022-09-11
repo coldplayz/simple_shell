@@ -26,6 +26,7 @@
  * 2. _strlen()
  * 3. _realloc()
  * 4. handle_strlen()
+ * Notes: Returned buffer is null-terminated.
  * Return: a pointer to the buffer containing the concatenated strings.
  * This buffer has to be free'd when done with.
  */

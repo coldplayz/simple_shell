@@ -12,6 +12,8 @@
 #define pd(x) (printf("%d\n", (x)))
 #define plu(x) (printf("%lu\n", (x)))
 
+
+
 /**
  * setenv2 - sets a new environment variable, or updates an existing one.
  * @sarr: the array of strings containing command-line arguments to execute..
@@ -28,8 +30,7 @@ int setenv2(char **sarr, char ***envp,
 {
 	int i, j, flag = 0, len;
 
-	i = handle_name_val(sarr[1], sarr[2]);
-	if (i != 0)
+	if (!sarr[1])
 		return (1);
 	len = _strlen(sarr[1]);
 	for (i = 0; (*envp)[i]; i++)
@@ -54,12 +55,14 @@ int setenv2(char **sarr, char ***envp,
 		if (flag)
 		{
 			/* if name is found */
-			if (_strlen((*envp)[i] + j + 1) >= _strlen(sarr[2]))
+			if (_strlen((*envp)[i] + j + 1) >= handle_strlen2(sarr[2]))
 				return (edit_env((*envp)[i], sarr[2], (j + 1)));
 			else
 				return (rellocate_env(sarr[1], sarr[2], i, 1, envp, free));
 		}
 	}
 	/* if name is not found */
+	if (!sarr[2])
+		return (1);
 	return (rellocate_env(sarr[1], sarr[2], -1, 2, envp, free));
 }

@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <signal.h>
+#include <sys/stat.h>
 
 #define BUFSIZE 512
 
@@ -33,6 +34,13 @@ typedef struct list_s
  * @pti: array of two integers storing
  * return values from printfext2() function calls.
  * @fd: file descriptor of the file to write to.
+ * @quick_exit: int determining whether to exit the shell loop (0) or not (1).
+ * @null_term: int determining whether to
+ * null-terminate read input to be parsed by EOF_handler.
+ * @quote: an int determining whether to tokenize quoted strings (0) or not (1)
+ * @free0: an int determining whether to free str_ar[0] or not (0).
+ * @bltin_nm: array of strings storing the names of built-in shell commands.
+ * @content: a message string about the struct contents.
  */
 typedef struct shell
 {
@@ -42,6 +50,11 @@ typedef struct shell
 	char *name;
 	int pti[2];
 	int fd;
+	int quick_exit;
+	int null_term;
+	int quote;
+	int free0;
+	char *bltin_nm[7];
 	char *content;
 } shell_t;
 
@@ -254,6 +267,17 @@ int print_alias(char **sarr, char ***alias);
 void find_quote(char **ptc, int *n);
 void init_shell(shell_t *shell, char *av0);
 shell_t *shstruct(shell_t *shell);
+int iscmd(char *cmd_name, char **envp);
+int mclTTY2(char *shell_nm, int *b, char ***envp,
+		int *status, int *_free, char **bltin_nm, char *line);
+void psarr(char **sarr, char c);
+int handle_mall(void *buff);
+void pipe_parser(char *line, char **envp);
+void pstr(char *str, char c);
+int isscript(char *buff, char *sh);
+int is_binsh(char *filename);
+int isexec(struct stat *st, char *filename);
+int handle_strlen2(char *str);
 
 
 

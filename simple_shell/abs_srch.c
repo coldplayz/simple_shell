@@ -35,14 +35,16 @@ void abs_srch(char ***sarr, char **envp)
 	ptc = isinPATH2((*sarr)[0], envp);
 	if (!ptc)
 	{
-		/* program non-existent */
+		/* program non-existent or empty PATH */
 		fprintf2(STDERR_FILENO, "%s: %d: %s: not found\n",
 				shstruct(NULL)->name, shstruct(NULL)->loop_cnt, (*sarr)[0]);
+		shstruct(NULL)->exstat = 127;
 		free(*sarr);
 		*sarr = NULL;
 	}
 	else
 	{
+		shstruct(NULL)->free0 = 1;
 		(*sarr)[0] = ptc;
 	}
 }

@@ -32,7 +32,7 @@ int launch_other(char **sarr, char **envp)
 	pid1 = fork();
 	if (pid1 == -1)
 	{
-		perror("launch_other");
+		perror("launch_other-fork");
 		return (1);
 	}
 	else
@@ -41,7 +41,7 @@ int launch_other(char **sarr, char **envp)
 		{
 			if (execve(sarr[0], sarr, envp) == -1)
 			{
-				perror("launch_other");
+				perror("launch_other-execve");
 				return (1);
 			}
 		}

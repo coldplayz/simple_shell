@@ -28,7 +28,6 @@ int str2posint(char *str)
 	{
 		if (str[i] < '0' || str[i] > '9')
 		{
-			write(STDERR_FILENO, "Not a numeric string\n", 21);
 			return (-1);
 		}
 

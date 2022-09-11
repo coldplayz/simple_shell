@@ -26,7 +26,7 @@
  */
 int char_srch(char *str, char xter)
 {
-	int i;
+	int i = 0;
 
 	switch (xter)
 	{

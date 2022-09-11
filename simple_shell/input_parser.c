@@ -33,10 +33,11 @@ char **in_parser(char *line, char *envp[], char *bltin_nm[], int *n)
 	char **str_ar;
 	int i;
 
-	str_ar = str_arr(line, " \n"); /* 'line' is modified after call to str_ar */
+	str_ar = str_arr(line, " \n\0"); /* 'line' is modified after call to str_ar */
 	if ((!str_ar[0]) || (rel_srch(str_ar[0])))
 	{
 		*n = 0;
+		shstruct(NULL)->free0 = 0; /* same effect as above line */
 		return (str_ar);
 	}
 
@@ -45,6 +46,7 @@ char **in_parser(char *line, char *envp[], char *bltin_nm[], int *n)
 		if (_strcmp(bltin_nm[i], str_ar[0]) == 0)
 		{
 			*n = 0;
+			shstruct(NULL)->free0 = 0;
 			return (str_ar);
 		}
 	}

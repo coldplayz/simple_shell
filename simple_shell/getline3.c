@@ -51,6 +51,7 @@ ssize_t getline3(char **line, size_t *n, FILE * stream __attribute__((unused)))
 		perror("Malloc-buff");
 		exit(EXIT_FAILURE);
 	}
+	_memset(buff, 0, bsize);
 
 	for (i = 0; 1; i++)
 	{
@@ -67,6 +68,7 @@ ssize_t getline3(char **line, size_t *n, FILE * stream __attribute__((unused)))
 			handle_realloc2(&buff, &old_bsize, &bsize, *line);
 		else if ((a >= 0) && (a < BUFSIZE)) /* end of transmission/input */
 		{
+			old_bsize += a;
 			return (EOF_handler(&buff, old_bsize, a, m, n, line, bsize));
 		}
 	}
@@ -92,7 +94,9 @@ ssize_t getline3(char **line, size_t *n, FILE * stream __attribute__((unused)))
 ssize_t EOF_handler(char **buff, unsigned int old_bsize,
 		int a, ssize_t m, size_t *n, char **line, unsigned int bsize)
 {
-	(*buff)[old_bsize + a] = 0;
+	(void)old_bsize;
+	(void)a;
+
 	if (!val_line(buff)) /* input end: check all xters written to buff so far*/
 	{
 		free(*buff);

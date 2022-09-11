@@ -28,11 +28,13 @@ launch_builtins
 launch_other
 launcher
 _memncpy
+_memset
 num_len
 parser_launcher
 mult_cmd_launcherSEM
 mult_cmd_launcherAND
 mult_cmd_launcherOR
+mclTTY
 pah
 printS
 printX
@@ -59,7 +61,6 @@ setenv2
 shstruct
 sigint_handler
 main
-init_shell
 str2posint
 str_arr
 str_arrlen

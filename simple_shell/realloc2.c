@@ -31,22 +31,21 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 		}
 		else
 		{
+			_memset(ptr, 0, new_size);
 			return (ptr);
 		}
 	}
+
 	ptr2 = malloc(new_size);
 	if (ptr2 == NULL)
-	{
 		return (NULL);
-	}
+	_memset(ptr2, 0, new_size);
+
 	if (new_size < old_size)
-	{
 		_memncpy(ptr2, ptr, (new_size));
-	}
 	else
-	{
 		_memncpy(ptr2, ptr, (old_size));
-	}
+
 	free(ptr);
 	return (ptr2);
 }

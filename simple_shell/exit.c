@@ -28,13 +28,25 @@
 int exit2(char **sarr, char ***envp __attribute__((unused)),
 		int *status, int *free __attribute__((unused)))
 {
+	int stat;
+
+	(void)status;
+	shstruct(NULL)->quick_exit = 0;
 	if (sarr[1])
 	{
-		*status = str2posint(sarr[1]);
+		stat = str2posint(sarr[1]);
+		if (stat == -1)
+		{
+			fprintf2(STDERR_FILENO, "%s: %d: exit: illegal number: %s\n",
+					shstruct(NULL)->name, shstruct(NULL)->loop_cnt, sarr[1]);
+			shstruct(NULL)->exstat = 2;
+		}
+		else
+		{
+			shstruct(NULL)->exstat = stat;
+		}
 		return (0);
 	}
-
-	*status = 0;
 
 	return (0);
 }

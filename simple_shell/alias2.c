@@ -44,7 +44,7 @@ int alias2(char **sarr, char ***envp __attribute__((unused)),
 	for (i = 1; sarr[i]; i++)
 	{
 		equ = char_srch2(sarr[i], '='); /* see whether = is in sarr[i] before... */
-		sarr2 = str_arr(sarr[i], "=\n"); /* ...tokenization */
+		sarr2 = str_arr(sarr[i], "=\n\0"); /* ...tokenization */
 		switch (equ)
 		{
 			case 1:
