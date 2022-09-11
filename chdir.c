@@ -38,15 +38,21 @@ int cd2(char **sarr, char ***envp, int *status, int *free2)
 	if (sarr[1] == NULL) /* no argument to cd */
 	{
 		newpwd = getenv3("HOME", *envp);
+		if (!newpwd)
+			return (1);
 		ptc = newpwd;
 		pptc2[2] = newpwd;
 	}
 	else if (sarr[1][0] == '-' && sarr[1][1] == 0)
 	{
-		newpwd = strdup2(getenv3("OLDPWD", *envp)); /* independent copy of OLDPWD */
+		if (getenv3("OLDPWD", *envp))
+			newpwd = strdup2(getenv3("OLDPWD", *envp)); /* independent copy of OLDPWD */
+		else
+			return (1);
 		free_newpwd = 1;
 		ptc = newpwd;
 		pptc2[2] = newpwd;
+		fprintf2(STDOUT_FILENO, "%s\n", newpwd);
 	}
 	else
 	{
@@ -56,7 +62,8 @@ int cd2(char **sarr, char ***envp, int *status, int *free2)
 	pptc[2] = oldpwd;
 	if (chdir(ptc) == -1)
 	{
-		perror("chdir");
+		fprintf2(STDERR_FILENO, "%s: %d: cd: can't cd to %s\n",
+				shstruct(NULL)->name, shstruct(NULL)->loop_cnt, ptc);
 		return (1);
 	}
 	else

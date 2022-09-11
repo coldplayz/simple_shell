@@ -62,5 +62,7 @@ int setenv2(char **sarr, char ***envp,
 		}
 	}
 	/* if name is not found */
+	if (!sarr[2])
+		return (1);
 	return (rellocate_env(sarr[1], sarr[2], -1, 2, envp, free));
 }
