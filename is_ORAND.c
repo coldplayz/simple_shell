@@ -25,7 +25,7 @@
  */
 int is_ORAND(char *str)
 {
-	int i = 0;
+	int i = 0, flag1 = 0, flag2 = 0;
 
 	for (i = 0; str[i]; i++)
 	{
@@ -33,7 +33,7 @@ int is_ORAND(char *str)
 		{
 			if (str[++i] == '|')
 			{
-				return (1);
+				flag1 = 1;
 			}
 			else
 			{
@@ -48,13 +48,18 @@ int is_ORAND(char *str)
 		{
 			if (str[++i] == '&')
 			{
-				return (1);
+				flag2 = 1;
 			}
 			else
 			{
 				break;
 			}
 		}
+	}
+
+	if (flag1 && flag2) /* "||" and "&&" operators present */
+	{
+		return (1);
 	}
 
 	return (0);

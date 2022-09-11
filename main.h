@@ -280,6 +280,8 @@ int isexec(struct stat *st, char *filename);
 int handle_strlen2(char *str);
 int is_mult_cmd(char *line);
 int is_ORAND(char *str);
+int mult_cmd_launcherORAND(char *shell_nm, int *b, char ***envp,
+		int *status, int *_free, char **bltin_nm, char *line);
 
 
 
