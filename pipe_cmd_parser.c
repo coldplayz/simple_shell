@@ -30,6 +30,9 @@ void pipe_parser(char *line, char **envp)
 	char *line2, *token, **sarr;
 	int i;
 
+	shstruct(NULL)->quick_exit = 0;
+	if (is_mult_cmd(line))
+		return;
 	line2 = strdup2(line); /* to free line2 */
 	sarr = str_arr(line2, " \n\0"); /* to free sarr */
 
@@ -37,7 +40,6 @@ void pipe_parser(char *line, char **envp)
 	if (!token)
 	{
 		/* piped input contains only delimiter character(s) */
-		shstruct(NULL)->quick_exit = 0;
 		free(line2);
 		free(sarr);
 		return;
@@ -54,7 +56,6 @@ void pipe_parser(char *line, char **envp)
 
 	free(line2);
 	free(sarr);
-	shstruct(NULL)->quick_exit = 0;
 }
 
 

@@ -278,6 +278,7 @@ int isscript(char *buff, char *sh);
 int is_binsh(char *filename);
 int isexec(struct stat *st, char *filename);
 int handle_strlen2(char *str);
+int is_mult_cmd(char *line);
 
 
 
