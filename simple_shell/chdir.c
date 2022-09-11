@@ -47,6 +47,8 @@ int cd2(char **sarr, char ***envp, int *status, int *free2)
 	{
 		if (getenv3("OLDPWD", *envp))
 			newpwd = strdup2(getenv3("OLDPWD", *envp)); /* independent copy of OLDPWD */
+		else if (getenv3("PWD", *envp))
+			newpwd = strdup2(getenv3("PWD", *envp));
 		else
 			return (1);
 		free_newpwd = 1;

@@ -48,6 +48,8 @@ int parser_launcher(char *line, char ***envp,
 
 	if (!(isatty(STDIN_FILENO)))
 		pipe_parser(line, *envp);
+	if (is_ORAND(line))
+		return (mult_cmd_launcherORAND());
 	if (char_srch(line, ';'))
 	{
 		return (mult_cmd_launcherSEM(shell_nm, b,
