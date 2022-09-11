@@ -19,7 +19,7 @@
  */
 int edit_env(char *env, const char *value, int edit_idx)
 {
-	int i, j, flag = 1, len_env = _strlen(env), len_val = _strlen((char *)value);
+	int i, j, flag = 1, len_env = _strlen(env), len_val = handle_strlen2((char *)value);
 
 	for (i = edit_idx; i <= len_env; i++)
 	{
