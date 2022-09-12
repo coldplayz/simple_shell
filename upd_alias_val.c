@@ -51,7 +51,7 @@ int upd_alias_val(char **sarr, char ***alias)
 		if (flag)
 		{
 			/* if name is found */
-			if (_strlen((*alias)[i] + j + 1) >= _strlen(sarr[1]))
+			if (_strlen((*alias)[i] + j + 1) >= (_strlen(sarr[1]) + 2))
 				return (edit_alias_val((*alias)[i], sarr[1], (j + 1)));
 			else
 				return (rellocate_alias_val(sarr[0], sarr[1], i, 1, alias));
@@ -99,7 +99,7 @@ int rellocate_alias_val(const char *name, const char *val,
 			for (i = 0; i < (env_len); i++)
 			{
 				if (i == edit_idx)
-					buff[i] = strconcatl(3, name, "=", val);
+					buff[i] = strconcatl(5, name, "=", "\'", val, "\'");
 				else
 					buff[i] = strdup2((*alias)[i]);
 			}
@@ -113,7 +113,7 @@ int rellocate_alias_val(const char *name, const char *val,
 				return (1);
 			for (i = 0; i < env_len; i++)
 				buff[i] = strdup2((*alias)[i]);
-			buff[i++] = strconcatl(3, name, "=", val);
+			buff[i++] = strconcatl(5, name, "=", "\'", val, "\'");
 			buff[i] = NULL;
 			handle_free("e", 0, *alias);
 	}
@@ -142,6 +142,7 @@ int edit_alias_val(char *alias, const char *value, int edit_idx)
 	{
 		if (flag)
 		{
+			alias[i++] = '\'';
 			for (j = 0; j < len_val; j++)
 			{
 				if (value[j] == '=')
@@ -153,6 +154,7 @@ int edit_alias_val(char *alias, const char *value, int edit_idx)
 			}
 		}
 		flag = 0;
+		alias[i++] = '\'';
 		alias[i] = 0;
 		return (1);
 	}

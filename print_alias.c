@@ -46,7 +46,7 @@ int print_alias(char **sarr, char ***alias)
 		if (flag)
 		{
 			/* if name is found */
-			fprintf2(STDOUT_FILENO, "alias %s\n", (*alias)[i]);
+			fprintf2(STDOUT_FILENO, "%s\n", (*alias)[i]);
 			return (1);
 		}
 	}
