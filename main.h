@@ -46,6 +46,7 @@ typedef struct shell
 {
 	int exstat;
 	char **alias;
+	char **newalias;
 	unsigned long int loop_cnt;
 	char *name;
 	int pti[2];
@@ -284,6 +285,8 @@ int mult_cmd_launcherORAND(char *shell_nm, int *b, char ***envp,
 		int *status, int *_free, char **bltin_nm, char *line);
 char *getalias(char *name);
 char *isalias(const char *cmd_name);
+int char_srchANY(char *str, char xter);
+int is_newalias(char *cmd_name);
 
 
 

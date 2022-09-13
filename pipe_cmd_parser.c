@@ -35,6 +35,7 @@ void pipe_parser(char *line, char **envp)
 		return;
 	line2 = strdup2(line); /* to free line2 */
 	sarr = str_arr(line2, " \n\0"); /* to free sarr */
+	shstruct(NULL)->newalias = sarr;
 
 	token = strtok3(line, " \n\0", 0); /* strtok3 leaves line unchanged */
 	if (!token)
@@ -114,14 +115,3 @@ char *strtok3(char *str, const char *delim, int quote)
 	}
 	return (NULL);
 }
-
-/* ====================NOTES=================== */
-
-/* L31: n is greater than 0 only if a */
-/* non-delimiter character has been encountered. */
-/* This makes it possible to ignore any */
-/* leading delim xter and prevent a false termination. */
-
-/* L37: flag is set to 0 only when a delim xter is met, */
-/* to prevent entrance into the IF block on L41, which is */
-/* only meant for when the current value of ptc is a non-delim xter. */

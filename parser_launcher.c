@@ -43,9 +43,10 @@ int mclTTY(char *shell_nm, int *b, char ***envp,
 int parser_launcher(char *line, char ***envp,
 		char **bltin_nm, int *b, int *status, int *_free, char *shell_nm)
 {
-	int c = 1;
-	char **str_ar;
+	int c = 1, flag = 0;
+	char *ptc, *ptc2, *ptc3, **str_ar;
 
+	(void)flag;
 	if (!(isatty(STDIN_FILENO)))
 		pipe_parser(line, *envp);
 	if (is_ORAND(line))
