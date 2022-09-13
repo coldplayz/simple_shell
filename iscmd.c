@@ -30,6 +30,10 @@ int is_bltin(char *cmd_name);
  * 1. strconcatl()
  * 2. str_arr()
  * 3. getenv3()
+ * Note: new and existing aliases will return 0 as long as
+ * the "alias" command has been seen, and no non-command
+ * string has been encountered to prompt a change in
+ * the flag, indicating the presence of the alias command, from 1 to 0.
  * Return: 1 if cmd_name is in PATH or is a valid pathname; otherwise 0
  */
 int iscmd(char *cmd_name, char **envp)
@@ -41,9 +45,27 @@ int iscmd(char *cmd_name, char **envp)
 	if (is_bltin(cmd_name))
 		return (1);
 	if (is_newalias(cmd_name))
-		return (1);
+	{
+		if (shstruct(NULL)->is_aliascmd)
+		{
+			return (0);
+		}
+		else
+		{
+			return (1);
+		}
+	}
 	if (isalias(cmd_name))
-		return (1);
+	{
+		if (shstruct(NULL)->is_aliascmd)
+		{
+			return (0);
+		}
+		else
+		{
+			return (1);
+		}
+	}
 	if (stat(cmd_name, &st) == 0)
 	{
 		if (isexec(&st, cmd_name))

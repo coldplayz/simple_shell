@@ -44,7 +44,7 @@ int parser_launcher(char *line, char ***envp,
 		char **bltin_nm, int *b, int *status, int *_free, char *shell_nm)
 {
 	int c = 1, flag = 0;
-	char **str_ar;
+	char *ptc, *ptc2, *ptc3, *ptc4, **str_ar;
 
 	(void)flag;
 	if (!(isatty(STDIN_FILENO)))
@@ -69,6 +69,18 @@ int parser_launcher(char *line, char ***envp,
 	}
 	else
 	{
+		ptc4 = strdup2(line); /* free */
+		strtok2(ptc4, " \n\0", 0);
+		if (isalias(ptc4))
+		{
+			ptc = getalias(strtok2(line, " \n\0", 0)); /* ptc is pointing right into the alias array */
+			ptc2 = strdup2(ptc); /* create a copy so as not to modify the alias array */
+			ptc3 = strtok2(ptc2, "\'", 0); /* strip away the '' delimiters */
+			free(line);
+			line = ptc3;
+			flag = 1; /* indicates to free ptc2 */
+		}
+		free(ptc4);
 		str_ar = in_parser(line, *envp, bltin_nm, b);
 		if (!str_ar) /* command not found */
 		{
@@ -82,8 +94,16 @@ int parser_launcher(char *line, char ***envp,
 			return (1);
 		}
 		c = launcher(str_ar, envp, bltin_nm, status, _free);
-		handle_free("sd", shstruct(NULL)->free0, line, str_ar);
+		handle_free("d", shstruct(NULL)->free0, str_ar);
 		*b = 1;
+		if (flag)
+		{
+			free(ptc2);
+		}
+		else
+		{
+			free(line);
+		}
 	}
 
 	return (c);

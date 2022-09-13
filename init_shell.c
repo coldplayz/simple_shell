@@ -33,6 +33,8 @@ void init_shell(shell_t *shell, char *av0)
 	handle_dpmall(shell->alias);
 	shell->alias[0] = NULL;
 
+	shell->is_aliascmd = 0;
+
 	shell->loop_cnt = 0;
 	shell->name = av0;
 

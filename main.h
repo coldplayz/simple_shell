@@ -28,6 +28,7 @@ typedef struct list_s
  * need to be accessed and/or modified at different stack levels.
  * @exstat: exit status of last launched program/command.
  * @alias: array of strings representing the alias list.
+ * @newalias: command-line array of strings of potentially new aliases to set.
  * @loop_cnt: keeps record of the number of
  * times the shell's main loop has been run.
  * @name: the program name.
@@ -47,6 +48,7 @@ typedef struct shell
 	int exstat;
 	char **alias;
 	char **newalias;
+	int is_aliascmd;
 	unsigned long int loop_cnt;
 	char *name;
 	int pti[2];

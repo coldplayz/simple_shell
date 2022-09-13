@@ -45,9 +45,17 @@ void pipe_parser(char *line, char **envp)
 		free(sarr);
 		return;
 	}
+	if (_strcmp(sarr[0], "alias") == 0)
+	{
+		shstruct(NULL)->is_aliascmd = 1;
+	}
 
 	for (i = 1; sarr[i]; i++)
 	{
+		if (_strcmp(sarr[i], "alias") == 0)
+		{
+			shstruct(NULL)->is_aliascmd = 1;
+		}
 		token = strtok3(NULL, " \n\0", 0); /* starts from second word of line */
 		if (iscmd(sarr[i], envp))
 		{
