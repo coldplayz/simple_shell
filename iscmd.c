@@ -40,6 +40,8 @@ int iscmd(char *cmd_name, char **envp)
 
 	if (is_bltin(cmd_name))
 		return (1);
+	if (isalias(cmd_name))
+		return (1);
 	if (stat(cmd_name, &st) == 0)
 	{
 		if (isexec(&st, cmd_name))

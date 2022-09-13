@@ -107,13 +107,22 @@ int parser_launcher(char *line, char ***envp,
 int mult_cmd_launcherSEM(char *shell_nm, int *b, char ***envp,
 		int *status, int *_free, char **bltin_nm, char *line)
 {
-	int a, c = 1;
-	char **str_ar, **str_ar2;
+	int a, c = 1, flag = 0;
+	char **str_ar, **str_ar2, *ptc, *ptc2, *ptc3;
 
 	str_ar = str_arr(line, ";\n\0"); /* get array of strings of multiple commands */
 
 	for (a = 0; (a < str_arrlen(str_ar) && c); a++) /* run subshell 4 each cmd */
 	{
+		if (isalias(str_ar[a]))
+		{
+			ptc = getalias(str_ar[a]); /* ptc is pointing right into the alias array */
+			ptc2 = strdup2(ptc); /* create a copy so as not to modify the alias array */
+			ptc3 = strtok2(ptc2, "\'", 0); /* strip away the '' delimiters */
+			str_ar[a] = ptc3;
+			flag = 1; /* indicates to free ptc2 */
+		}
+
 		str_ar2 = in_parser(str_ar[a], *envp, bltin_nm, b);
 		if (!str_ar2) /* command not found */
 		{
@@ -132,6 +141,10 @@ int mult_cmd_launcherSEM(char *shell_nm, int *b, char ***envp,
 
 		handle_free("d", shstruct(NULL)->free0, str_ar2);
 		*b = 1;
+		if (flag)
+		{
+			free(ptc2);
+		}
 	}
 	handle_free("sd", 0, line, str_ar);
 
