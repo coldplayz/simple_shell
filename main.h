@@ -296,6 +296,9 @@ char *isalias(const char *cmd_name);
 int char_srchANY(char *str, char xter);
 int is_newalias(char *cmd_name);
 char *itoa2(int n);
+ssize_t EOF_handler(char **buff, unsigned int old_size, int a,
+		ssize_t m, size_t *n, char **line, unsigned int bsize);
+ssize_t handle_script(char *name, char **line, size_t *n);
 
 
 

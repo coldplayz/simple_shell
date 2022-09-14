@@ -1,5 +1,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -14,53 +15,63 @@
 #define ex (execve("/bin/ls", args, NULL) == (-1))
 #define ps(x) (printf("%s\n", (x)))
 #define pd(x) (printf("%d\n", (x)))
-#define plu(x) (printf("%lu", (x)))
-
-ssize_t EOF_handler(char **buff, unsigned int old_size, int a,
-		ssize_t m, size_t *n, char **line, unsigned int bsize);
-
+#define plu(x) (printf("%lu\n", (x)))
 
 /**
- * getline3 - gets a line from stdin.
+ * handle_script - gets the contents of a script file.
+ * @name: name of file to read from.
  * @line: the address of a pointer to char buffer.
  * @n: the address of a long unsigned int representing the size of line.
- * @stream: the data stream to
- * read from represented as a pointer to a FILE object.
  *
- * Description: getline2() stores the line in a buffer (buff) with a
+ * Description: handle_script() stores the line in a buffer (buff) with a
  * size equal to the smallest multiple of 512 bytes that can contain the
- * line string. Includes the newline character, followed by null-termination.
+ * line string. line ill be null-terminated by fuction end.
  * line and n are modified to store
  * the address of the line string and buffer size respectively.
  * If argument 'line' is NULL, then n should be 0, otherwise supply
  * a [malloc'd] pointer as 'line' and the size as n.
- * Return: the number of characters read from stdin, or 0 on EOF.
+ * Return: the number of characters read from the file, or 0 on EOF.
  */
-ssize_t getline3(char **line, size_t *n, FILE * stream __attribute__((unused)))
+ssize_t handle_script(char *name, char **line, size_t *n)
 {
-	char *buff;
+	int a, fdrd;
 	ssize_t m;
-	int a;
 	size_t i;
 	unsigned int bsize = BUFSIZE, old_bsize = 0;
+	char *buff;
+	struct stat st;
+
+	shstruct(NULL)->quick_exit = 0;
+	if (stat(name, &st) != 0) /* file named 'name' does not exist */
+	{
+		fprintf2(STDERR_FILENO, "%s: 0: Can't open %s\n", shstruct(NULL)->name, name);
+		exit(127);
+	}
+
+	fdrd = open(name, O_RDONLY);
+	if (fdrd == -1)
+	{
+		perror("handle_script-open");
+		exit(127);
+	}
 
 	m = 0;
 	buff = malloc(sizeof(char) * bsize);
 	if (buff == NULL)
 	{
 		perror("Malloc-buff");
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 	_memset(buff, 0, bsize);
 
 	for (i = 0; 1; i++)
 	{
-		a = read(STDIN_FILENO, (buff + old_bsize), BUFSIZE);
+		a = read(fdrd, (buff + old_bsize), BUFSIZE);
 		if (a == -1)
 		{
 			free(buff);
 			perror("stdin-read");
-			exit(EXIT_FAILURE);
+			exit(127);
 		}
 		m += a;
 
@@ -69,6 +80,7 @@ ssize_t getline3(char **line, size_t *n, FILE * stream __attribute__((unused)))
 		else if ((a >= 0) && (a < BUFSIZE)) /* end of transmission/input */
 		{
 			old_bsize += a;
+			close(fdrd);
 			return (EOF_handler(&buff, old_bsize, a, m, n, line, bsize));
 		}
 	}

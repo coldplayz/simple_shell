@@ -28,18 +28,36 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 {
 	shell_t shell;
 	size_t n = 0;
-	int status = 0, a = 1, b = 1, _free = 0;
-	char *line, **bltin_nm = shell.bltin_nm;
+	int i, status = 0, a = 1, b = 1, _free = 0, noscript = 1;
+	char *line = NULL, **bltin_nm = shell.bltin_nm;
 
 	init_shell(&shell, argv[0]); /* initialize the shell's struct */
 	shell.envp = &envp;
 	shstruct(&shell); /* store the address of the shell's struct in shstruct */
+	if (argv[1])
+	{
+		handle_script(argv[1], &line, &n);
+		noscript = 0;
+
+		for (i = 0; line[i]; i++)
+		{
+			if (line[i] == '\n')
+			{
+				/* replace '\n' with command separator */
+				/* to allow entrance into mult_cmd_launcherSEM() */
+				line[i] = ';';
+			}
+		}
+	}
 	while (a)
 	{
 		shstruct(NULL)->loop_cnt++;
 		b = 1;
-		line = NULL;
-		if (isatty(STDIN_FILENO) == 1)
+		if (noscript)
+		{
+			line = NULL;
+		}
+		if (isatty(STDIN_FILENO) == 1 && noscript)
 		{
 			fprintf2(STDOUT_FILENO, "$ ");
 			if (getline3(&line, &n, stdin) == 0)
@@ -47,8 +65,9 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 				status = 1;
 				break;
 			}
+			strtok2(line, "#", 0); /* remove comments */
 		}
-		else
+		else if (noscript)
 		{
 			shell.quick_exit = 0;
 			if (getline3(&line, &n, stdin) == 0)
@@ -56,6 +75,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 				status = 1;
 				break;
 			}
+			strtok2(line, "#", 0); /* remove comments */
 		}
 
 		a = parser_launcher(line, &envp, bltin_nm, &b, &status, &_free, argv[0]);
