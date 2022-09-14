@@ -43,7 +43,7 @@ int launch_other(char **sarr, char **envp)
 			sarr[i] = itoa2(pid);
 			flag = i;
 		}
-		else if (sarr[i][0] == '$')
+		else if ((sarr[i][0] == '$') && (sarr[i][1] != ' ' && sarr[i][1] != '\n' && sarr[i][1] != '\t' && sarr[i][1] != '\0'))
 		{
 			sarr[i] = getenv3(sarr[i] + 1, *shstruct(NULL)->envp);
 		}
