@@ -65,7 +65,7 @@ char *getenv3(const char *name, char **envp)
 		if (flag)
 		{
 			/* if all specified xters match */
-			return (envp[i] + j + 2);
+			return (envp[i] + j + 1);
 		}
 	}
 
