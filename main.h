@@ -27,8 +27,11 @@ typedef struct list_s
  * struct shell - a data structure for variables whose values
  * need to be accessed and/or modified at different stack levels.
  * @exstat: exit status of last launched program/command.
+ * @envp: address of the environment.
  * @alias: array of strings representing the alias list.
  * @newalias: command-line array of strings of potentially new aliases to set.
+ * @is_aliascmd: an int storing 1 when the
+ * "alias" command is given, and 0 by default.
  * @loop_cnt: keeps record of the number of
  * times the shell's main loop has been run.
  * @name: the program name.
@@ -41,11 +44,13 @@ typedef struct list_s
  * @quote: an int determining whether to tokenize quoted strings (0) or not (1)
  * @free0: an int determining whether to free str_ar[0] or not (0).
  * @bltin_nm: array of strings storing the names of built-in shell commands.
+ * @pid: an object storing the shell's process id.
  * @content: a message string about the struct contents.
  */
 typedef struct shell
 {
 	int exstat;
+	char ***envp;
 	char **alias;
 	char **newalias;
 	int is_aliascmd;
@@ -58,6 +63,7 @@ typedef struct shell
 	int quote;
 	int free0;
 	char *bltin_nm[7];
+	pid_t pid;
 	char *content;
 } shell_t;
 
@@ -289,6 +295,7 @@ char *getalias(char *name);
 char *isalias(const char *cmd_name);
 int char_srchANY(char *str, char xter);
 int is_newalias(char *cmd_name);
+char *itoa2(int n);
 
 
 

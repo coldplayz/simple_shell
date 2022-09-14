@@ -32,6 +32,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 	char *line, **bltin_nm = shell.bltin_nm;
 
 	init_shell(&shell, argv[0]); /* initialize the shell's struct */
+	shell.envp = &envp;
 	shstruct(&shell); /* store the address of the shell's struct in shstruct */
 	while (a)
 	{

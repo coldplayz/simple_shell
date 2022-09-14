@@ -26,12 +26,53 @@
  */
 int launch_other(char **sarr, char **envp)
 {
-	int status;
-	pid_t pid1;
+	int i, status, flag = -1;
+	pid_t pid, pid1;
+
+	pid = getpid();
+
+	for (i = 0; sarr[i]; i++)
+	{
+		if (_strcmp(sarr[i], "$?") == 0)
+		{
+			sarr[i] = itoa2(shstruct(NULL)->exstat); /* itoa2 returns a malloc'd ptc */
+			flag = i;
+		}
+		else if (_strcmp(sarr[i], "$$") == 0)
+		{
+			sarr[i] = itoa2(pid);
+			flag = i;
+		}
+		else if (sarr[i][0] == '$')
+		{
+			sarr[i] = getenv3(sarr[i] + 1, *shstruct(NULL)->envp);
+		}
+	}
+	if (sarr[0] == NULL)
+	{
+		for (i = 1; sarr[i]; i++) /* free memory allocated by call to itoa2 */
+		{
+			/* starts from sarr[1] otherwise as sarr[0] */
+			/* is NULL, entrance wouldn't be allowed into this loop */
+			if (flag == i)
+			{
+				free(sarr[i]);
+			}
+		}
+		fprintf2(STDOUT_FILENO, "\n");
+		return (1);
+	}
 
 	pid1 = fork();
 	if (pid1 == -1)
 	{
+		for (i = 0; sarr[i]; i++)
+		{
+			if (flag == i)
+			{
+				free(sarr[i]);
+			}
+		}
 		perror("launch_other-fork");
 		return (1);
 	}
@@ -41,6 +82,13 @@ int launch_other(char **sarr, char **envp)
 		{
 			if (execve(sarr[0], sarr, envp) == -1)
 			{
+				for (i = 0; sarr[i]; i++)
+				{
+					if (flag == i)
+					{
+						free(sarr[i]);
+					}
+				}
 				perror("launch_other-execve");
 				return (1);
 			}
@@ -51,6 +99,14 @@ int launch_other(char **sarr, char **envp)
 			if (WIFEXITED(status))
 			{
 				shstruct(NULL)->exstat = WEXITSTATUS(status);
+			}
+
+			for (i = 0; sarr[i]; i++)
+			{
+				if (flag == i)
+				{
+					free(sarr[i]);
+				}
 			}
 			return (1);
 		}

@@ -25,6 +25,24 @@ int rel_srch(char *cmd)
 {
 	struct stat st;
 
+	if (_strcmp(cmd, "$?") == 0)
+	{
+		/* sarr[0] = itoa2(shstruct(NULL)->exstat); itoa2 returns a malloc'd ptc */
+		/* shstruct(NULL)->freeitoa = 1; */
+		return (1);
+	}
+	else if (_strcmp(cmd, "$$") == 0)
+	{
+		/* sarr[0] = itoa2(pid); */
+		/* shstruct(NULL)->freeitoa = 1; */
+		return (1);
+	}
+	else if (cmd[0] == '$')
+	{
+		/* sarr[0] = getenv3(sarr[0] + 1, *shstruct(NULL)->envp); */
+		return (1);
+	}
+
 	if (stat(cmd, &st) != 0)
 	{
 		return (0);

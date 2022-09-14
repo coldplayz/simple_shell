@@ -31,7 +31,7 @@
  */
 char *getenv3(const char *name, char **envp)
 {
-	int i, j, flag = 0, len;
+	int i, j, flag = 0, len, len2, len3;
 
 	if (!name)
 	{
@@ -41,11 +41,15 @@ char *getenv3(const char *name, char **envp)
 	len = _strlen((char *)name);
 	for (i = 0; envp[i]; i++)
 	{
-		for (j = 0; j < len; j++)
+		len2 = _strlen(envp[i]);
+
+		/* ensures only the minimum length of the two strings to compare is used */
+		len3 = (len <= len2) ? len : len2;
+		for (j = 0; j < len3; j++)
 		{
 			if (name[j] == envp[i][j])
 			{
-				if ((envp[i][j + 1] == '='))
+				if ((envp[i][j + 1] == '=') && (j == len - 1))
 				{
 				/* if xters match */
 				flag = 1;
@@ -61,7 +65,7 @@ char *getenv3(const char *name, char **envp)
 		if (flag)
 		{
 			/* if all specified xters match */
-			return (envp[i] + j + 1);
+			return (envp[i] + j + 2);
 		}
 	}
 
