@@ -36,12 +36,12 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 	shstruct(&shell); /* store the address of the shell's struct in shstruct */
 	if (argv[1])
 	{
+		shstruct(NULL)->noscript = 0;
 		nocmd = handle_script(argv[1], &line, &n);
 		if (nocmd == 0)
 		{
 			return (0);
 		}
-		shstruct(NULL)->noscript = 0;
 
 		for (i = 0; line[i]; i++)
 		{
