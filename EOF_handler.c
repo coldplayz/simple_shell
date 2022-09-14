@@ -43,7 +43,10 @@ ssize_t EOF_handler(char **buff, unsigned int old_bsize,
 	{
 		free(shstruct(NULL)->alias);
 		free(*buff);
-		fprintf2(STDERR_FILENO, "\n");
+		if (shstruct(NULL)->noscript)
+		{
+			fprintf2(STDERR_FILENO, "\n");
+		}
 		return (0);
 	}
 

@@ -28,7 +28,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 {
 	shell_t shell;
 	size_t n = 0, nocmd = 1;
-	int i, status = 0, a = 1, b = 1, _free = 0, noscript = 1;
+	int i, status = 0, a = 1, b = 1, _free = 0;
 	char *line = NULL, **bltin_nm = shell.bltin_nm;
 
 	init_shell(&shell, argv[0]); /* initialize the shell's struct */
@@ -41,7 +41,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 		{
 			return (0);
 		}
-		noscript = 0;
+		shstruct(NULL)->noscript = 0;
 
 		for (i = 0; line[i]; i++)
 		{
@@ -57,11 +57,11 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 	{
 		shstruct(NULL)->loop_cnt++;
 		b = 1;
-		if (noscript)
+		if (shstruct(NULL)->noscript)
 		{
 			line = NULL;
 		}
-		if (isatty(STDIN_FILENO) == 1 && noscript)
+		if (isatty(STDIN_FILENO) == 1 && shstruct(NULL)->noscript)
 		{
 			fprintf2(STDOUT_FILENO, "$ ");
 			if (getline3(&line, &n, stdin) == 0)
@@ -70,7 +70,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 				break;
 			}
 		}
-		else if (noscript)
+		else if (shstruct(NULL)->noscript)
 		{
 			shell.quick_exit = 0;
 			if (getline3(&line, &n, stdin) == 0)

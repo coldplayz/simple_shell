@@ -45,6 +45,7 @@ typedef struct list_s
  * @free0: an int determining whether to free str_ar[0] or not (0).
  * @bltin_nm: array of strings storing the names of built-in shell commands.
  * @pid: an object storing the shell's process id.
+ * @noscript: int indicating whether input is from a script file (0), or not (1).
  * @content: a message string about the struct contents.
  */
 typedef struct shell
@@ -64,6 +65,7 @@ typedef struct shell
 	int free0;
 	char *bltin_nm[7];
 	pid_t pid;
+	int noscript;
 	char *content;
 } shell_t;
 

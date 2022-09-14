@@ -48,6 +48,8 @@ void init_shell(shell_t *shell, char *av0)
 
 	shell->exstat = 0;
 
+	shell->noscript = 1;
+
 	init_bltin_nm(shell);
 
 }
