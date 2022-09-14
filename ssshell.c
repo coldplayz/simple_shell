@@ -27,7 +27,7 @@
 int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 {
 	shell_t shell;
-	size_t n = 0;
+	size_t n = 0, nocmd = 1;
 	int i, status = 0, a = 1, b = 1, _free = 0, noscript = 1;
 	char *line = NULL, **bltin_nm = shell.bltin_nm;
 
@@ -36,7 +36,11 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 	shstruct(&shell); /* store the address of the shell's struct in shstruct */
 	if (argv[1])
 	{
-		handle_script(argv[1], &line, &n);
+		nocmd = handle_script(argv[1], &line, &n);
+		if (nocmd == 0)
+		{
+			return (0);
+		}
 		noscript = 0;
 
 		for (i = 0; line[i]; i++)
@@ -65,7 +69,6 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 				status = 1;
 				break;
 			}
-			strtok2(line, "#", 0); /* remove comments */
 		}
 		else if (noscript)
 		{
@@ -75,7 +78,6 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 				status = 1;
 				break;
 			}
-			strtok2(line, "#", 0); /* remove comments */
 		}
 
 		a = parser_launcher(line, &envp, bltin_nm, &b, &status, &_free, argv[0]);

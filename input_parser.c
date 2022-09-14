@@ -34,6 +34,21 @@ char **in_parser(char *line, char *envp[], char *bltin_nm[], int *n)
 	int i;
 
 	str_ar = str_arr(line, " \n\0"); /* 'line' is modified after call to str_ar */
+	for (i = 0; str_ar[i]; i++)
+	{
+		if (str_ar[i][0] == '#')
+		{
+			str_ar[i] = NULL;
+		}
+	}
+	if (!str_ar[0])
+	{
+		free(shstruct(NULL)->alias);
+		free(str_ar);
+		free(line);
+		exit(EXIT_SUCCESS);
+	}
+
 	if ((!str_ar[0]) || (rel_srch(str_ar[0])))
 	{
 		*n = 0;

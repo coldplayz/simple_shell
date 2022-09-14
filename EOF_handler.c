@@ -35,10 +35,13 @@ ssize_t EOF_handler(char **buff, unsigned int old_size, int a,
 ssize_t EOF_handler(char **buff, unsigned int old_bsize,
 		int a, ssize_t m, size_t *n, char **line, unsigned int bsize)
 {
+	char *ptc;
+
 	(void)a;
 
 	if (!val_line(buff)) /* input end: check all xters written to buff so far*/
 	{
+		free(shstruct(NULL)->alias);
 		free(*buff);
 		fprintf2(STDERR_FILENO, "\n");
 		return (0);
@@ -47,6 +50,19 @@ ssize_t EOF_handler(char **buff, unsigned int old_bsize,
 	*n = bsize;
 	(*buff)[old_bsize] = 0;
 	*line = *buff;
+
+	/* check for empty lines */
+	ptc = strdup2(*line);
+	strtok2(ptc, " \n\t\0", 0);
+	if (_strlen(ptc) == 0)
+	{
+		free(shstruct(NULL)->alias);
+		free(ptc);
+		free(*line);
+		return (0);
+	}
+
+	free(ptc);
 
 	return (m);
 }

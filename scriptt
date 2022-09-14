@@ -1,9 +1,0 @@
-echo man
-
-
-
-
-
-echo "ls /"
-
-ls $HBTN_DIR

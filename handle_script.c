@@ -44,6 +44,7 @@ ssize_t handle_script(char *name, char **line, size_t *n)
 	shstruct(NULL)->quick_exit = 0;
 	if (stat(name, &st) != 0) /* file named 'name' does not exist */
 	{
+		free(shstruct(NULL)->alias);
 		fprintf2(STDERR_FILENO, "%s: 0: Can't open %s\n", shstruct(NULL)->name, name);
 		exit(127);
 	}
@@ -51,6 +52,7 @@ ssize_t handle_script(char *name, char **line, size_t *n)
 	fdrd = open(name, O_RDONLY);
 	if (fdrd == -1)
 	{
+		free(shstruct(NULL)->alias);
 		perror("handle_script-open");
 		exit(127);
 	}
@@ -59,6 +61,7 @@ ssize_t handle_script(char *name, char **line, size_t *n)
 	buff = malloc(sizeof(char) * bsize);
 	if (buff == NULL)
 	{
+		free(shstruct(NULL)->alias);
 		perror("Malloc-buff");
 		exit(127);
 	}
@@ -70,6 +73,7 @@ ssize_t handle_script(char *name, char **line, size_t *n)
 		if (a == -1)
 		{
 			free(buff);
+			free(shstruct(NULL)->alias);
 			perror("stdin-read");
 			exit(127);
 		}
